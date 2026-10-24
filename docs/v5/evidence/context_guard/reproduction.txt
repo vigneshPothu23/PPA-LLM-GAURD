@@ -1,0 +1,12 @@
+# Dataset reproduction check, 2026-10-24 (UTC), clean scratch folder
+# python scripts/context_guard/download_sources.py --dest <scratch>/sources      (32 s)
+# PPAGUARD_CTX_SOURCES=<scratch>/sources python scripts/context_guard/build_datasets.py --out <scratch>/out
+# PPAGUARD_CTX_SOURCES=<scratch>/sources PPAGUARD_CTX_OUT=<scratch>/out python scripts/context_guard/build_confirm_set.py
+ctx_dev.jsonl: 114 rows (46 injected / 68 benign)
+unseen_synth.jsonl: 97 rows (35 injected / 62 benign)
+unseen_email.jsonl: 961 rows (398 injected / 563 benign)
+ctx_dev         MATCH 54e775c5cd38b56b...   (SHA-256 recorded in datasets.json)
+unseen_synth    MATCH b18f0b1fc2ec862b...
+unseen_email    MATCH beb8a6fd99b1f756...
+unseen_email_2  MATCH 40dd399fefc672c0...   (= the pre-registered hash)
+REPRODUCED BYTE-FOR-BYTE

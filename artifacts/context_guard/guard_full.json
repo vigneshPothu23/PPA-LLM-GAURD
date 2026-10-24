@@ -1,0 +1,93 @@
+{
+  "name": "context-guard-full",
+  "status": "EXPERIMENTAL - not validated for production; see docs/v5/CONTEXT_GUARD.md",
+  "features": [
+    "ai_addressing",
+    "override_framing",
+    "directive",
+    "imperative_start",
+    "delimiter_forgery",
+    "has_url_or_email",
+    "second_person",
+    "detector_score",
+    "offtopic",
+    "kind_weight"
+  ],
+  "use_offtopic": true,
+  "use_detector": true,
+  "max_detector_calls": 16,
+  "model": {
+    "feature_names": [
+      "ai_addressing",
+      "override_framing",
+      "directive",
+      "imperative_start",
+      "delimiter_forgery",
+      "has_url_or_email",
+      "second_person",
+      "detector_score",
+      "offtopic",
+      "kind_weight"
+    ],
+    "mean": [
+      0.003964321110009911,
+      0.007928642220019821,
+      0.019326065411298315,
+      0.018830525272547076,
+      0.007928642220019821,
+      0.0,
+      0.040634291377601585,
+      0.035245756194251715,
+      0.6085009484638244,
+      0.4251734390485629
+    ],
+    "std": [
+      0.06283792857937529,
+      0.08868922624855065,
+      0.10139337344654102,
+      0.13592621745089078,
+      0.07986963400637927,
+      1.0,
+      0.16459095482988081,
+      0.17881694753293081,
+      0.17230299451443543,
+      0.5724087080804997
+    ],
+    "weights": [
+      -0.025522938220920364,
+      -0.02124434447384721,
+      0.3476730474274466,
+      -0.30570184203258455,
+      0.28961921898173887,
+      0.0,
+      0.5357128070010791,
+      0.5259451338038348,
+      2.292940231045132,
+      -0.6460987374308941
+    ],
+    "bias": -3.1557488931907263
+  },
+  "thresholds_ctx_dev": {
+    "WARN": 0.97,
+    "BLOCK": 0.99
+  },
+  "policy_bridge": "guard alone never BLOCKs by default (BLOCK precision target not met on ctx_dev)",
+  "fitted_on": {
+    "set": "eval/context_sets/ctx_dev.jsonl",
+    "sha256": "54e775c5cd38b56ba68bcb6b9e89c90802b623324a9f047ead73d8d7207e5afc",
+    "rows": 114,
+    "supervision": "segment-level (known payload segments)"
+  },
+  "requires": {
+    "detector": {
+      "model_id": "protectai/deberta-v3-base-prompt-injection-v2@89b085cd3304",
+      "note": "ppaguard Engine 2 model folder (default ProtectAI v2)"
+    },
+    "embedder": {
+      "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "licence": "Apache-2.0",
+      "onnx_sha256": "6fd5d72fe4589f189f8ebc006442dbb529bb7ce38f8082112682524616046452"
+    }
+  }
+}

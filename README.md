@@ -25,6 +25,14 @@ DeBERTa, a DistilBERT detector, and our own RoBERTa, from-scratch and fp32 varia
 hidden injections inside e-mails and documents and harmless trigger-word prompts are the main failures. The default
 (ProtectAI v2, pinned) is labelled EXPERIMENTAL throughout the app. See [EVALUATION.md](docs/v5/EVALUATION.md).
 
+**Experimental: context guard** (`src/ppaguard/experimental/context_guard/`, not wired into the app). This is a
+context-aware detector for injections hidden inside e-mails, documents, tables and code. It scores segments instead
+of whole documents and combines lexical cues, the Engine 2 detector run per segment, and an off-topic signal; the
+result feeds the unchanged ALLOW/WARN/BLOCK policy. It was evaluated against all six existing detectors on the
+frozen sets, two independent unseen e-mail sets (one pre-registered) and an unseen synthetic set. The results are
+mixed, and it is **not** validated for production. See [CONTEXT_GUARD.md](docs/v5/CONTEXT_GUARD.md) and the
+[threat model](docs/v5/THREAT_MODEL.md).
+
 Documentation: [Architecture & security](docs/v5/ARCHITECTURE.md) · [Engine 1](docs/v5/ENGINE1.md) ·
 [Engine 2](docs/v5/ENGINE2.md) · [Evaluation](docs/v5/EVALUATION.md) · [Setup, training, deployment](docs/v5/DEPLOY.md) · [Build report](docs/v5/REPORT.md)
 

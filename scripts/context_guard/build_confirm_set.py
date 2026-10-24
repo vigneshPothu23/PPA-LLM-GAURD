@@ -18,14 +18,19 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import sys
 import random
 import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-PHASE2 = Path("/tmp/claude-0/ext/llmail2/labelled_unique_submissions_phase2.json")
-ENRON2 = Path("/tmp/claude-0/ext/enron2")
-OUT = ROOT / "eval/context_sets"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from paths import SOURCES  # noqa: E402  (download_sources.py fills it)
+
+PHASE2 = SOURCES / "llmail2" / "labelled_unique_submissions_phase2.json"
+ENRON2 = SOURCES / "enron2"
+OUT = Path(os.environ.get("PPAGUARD_CTX_OUT", ROOT / "eval/context_sets"))
 SEED = 20261025
 N_ATTACK = 400
 N_BENIGN = 400
