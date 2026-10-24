@@ -52,13 +52,19 @@ POST_HOC = {"hybrid_max"}
 def load(set_name: str) -> list[dict]:
     with open(CACHE / f"{set_name}.jsonl") as fh:
         rows = [json.loads(l) for l in fh if l.strip()]
-    if set_name in SOURCE:  # frozen rows have no id: cache order == file order; take carrier from `set`
-        with open(SOURCE[set_name]) as fh:
-            src = [json.loads(l) for l in fh if l.strip()]
-        assert len(src) == len(rows)
-        for r, s in zip(rows, src):
-            assert r["label"] == int(s["label"])
-            r["carrier"] = s["set"]
+    if set_name in SOURCE:  # frozen rows have no id: cache order == file order; carrier = the `set` field
+        if SOURCE[set_name].exists():
+            with open(SOURCE[set_name]) as fh:
+                src = [json.loads(l) for l in fh if l.strip()]
+            assert len(src) == len(rows)
+            for r, s in zip(rows, src):
+                assert r["label"] == int(s["label"])
+            names = [s["set"] for s in src]
+        else:  # no datasets available: committed, text-free carrier names
+            names = json.loads((CACHE / "frozen_carriers.json").read_text())[set_name]
+            assert len(names) == len(rows)
+        for r, n in zip(rows, names):
+            r["carrier"] = n
     else:
         for r in rows:
             r["carrier"] = r["group"]
@@ -181,12 +187,17 @@ INPUT = {"ctx_dev": ROOT / "eval/context_sets/ctx_dev.jsonl",
 def complete(set_name: str) -> bool:
     """A set is scored only when its cache covers every input row (never a partial cache)."""
     c, src = CACHE / f"{set_name}.jsonl", INPUT[set_name]
-    if not c.exists() or not src.exists():
+    if not c.exists():
         return False
     n = lambda p: sum(1 for l in open(p) if l.strip())  # noqa: E731
-    ok = n(c) == n(src)
+    if src.exists():
+        want = n(src)
+    else:  # no datasets available: row counts from the committed hash manifest
+        manifest = json.loads((OUT / "datasets.json").read_text())
+        want = manifest[str(src.relative_to(ROOT)).replace("\\", "/")]["rows"]
+    ok = n(c) == want
     if not ok:
-        print(f"SKIP {set_name}: cache incomplete ({n(c)}/{n(src)} rows)")
+        print(f"SKIP {set_name}: cache incomplete ({n(c)}/{want} rows)")
     return ok
 
 

@@ -61,5 +61,46 @@
       "llmail_phase2": "microsoft/llmail-inject-challenge @1063bdf01ec8762b812d5e06ee768a06faa5a6f7",
       "enron": "LLM-PBE/enron-email @a4761f17a981d79bd286bfff7dd0d53645aa5027, offsets i*98e6+49e6 (+2e6)"
     }
+  },
+  "eval/context_sets/dev2_email.jsonl": {
+    "sha256": "25cd8c62b0b6e46f936ff8ada2728a29f76e2ec8d432caefe27d9a0ab146ebe4",
+    "rows": 480,
+    "injected": 300,
+    "benign": 180
+  },
+  "eval/context_sets/unseen_email_3.jsonl": {
+    "sha256": "c007ae32347aa2e7a355a513ca5c41dcdec684fb928441e66d9e11f944c556e7",
+    "rows": 600,
+    "injected": 300,
+    "benign": 300
+  },
+  "eval/context_sets/unseen_embed_3.jsonl": {
+    "sha256": "831667d5fa9843be8c04f2c32a95c1f34855952f6c223bf2bc3e7895716f6b8e",
+    "rows": 300,
+    "injected": 150,
+    "benign": 150
+  },
+  "build_manifest_round2.json": {
+    "dev2_email": {
+      "rows": 480,
+      "injected": 300,
+      "sha256": "25cd8c62b0b6e46f936ff8ada2728a29f76e2ec8d432caefe27d9a0ab146ebe4"
+    },
+    "unseen_email_3": {
+      "rows": 600,
+      "injected": 300,
+      "sha256": "c007ae32347aa2e7a355a513ca5c41dcdec684fb928441e66d9e11f944c556e7"
+    },
+    "unseen_embed_3": {
+      "rows": 300,
+      "injected": 150,
+      "sha256": "831667d5fa9843be8c04f2c32a95c1f34855952f6c223bf2bc3e7895716f6b8e"
+    },
+    "seed": 20261026,
+    "earlier_texts_checked": 3631,
+    "dropped_overlap": 1287,
+    "tasktracker_unused_held_in": 280,
+    "tasktracker_unused_held_out": 278,
+    "trigger_pattern": "\\b(ignore|disregard|override|password|delete|system|forward|execute|admin|bypass|instructions?)\\b"
   }
 }
