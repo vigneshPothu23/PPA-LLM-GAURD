@@ -25,8 +25,15 @@ Related: [threat model](THREAT_MODEL.md) · [why whole-document classifiers over
   context for the off-topic feature to contrast against.
 - **The post-hoc fix failed its pre-registered test.** `hybrid_max` (the maximum of guard and ProtectAI) did not
   reach ProtectAI's recall on the confirmatory set (0.61 vs 0.68) and raised the FPR (0.13).
+- **Round 2 also failed its pre-registered test.** A document-aware second stage learned from data containing both
+  regimes and was tested once on fresh LLMail and Enron data (§10). It beat the default on injections embedded in
+  real e-mails (ROC-AUC 0.848 vs 0.731), but it lost on attacker-written e-mails (0.797 vs 0.861). It also flagged
+  more benign mail (11.8% vs 6.2%), mostly real e-mails that contain words like "forward" or "delete" (23% vs 7%).
+- **What held up on two separate clean tests:** scoring segments finds instructions *hidden inside* documents better
+  than the current default.
 - **No detector, old or new, combines high recall with a low false-positive rate across all content types.** The
   guard is therefore kept as an experimental, review-only signal. It is not proposed as the production detector.
+  The current default stays.
 <!-- SUMMARY:END -->
 
 ## 2. The problem it addresses
@@ -189,7 +196,7 @@ a small model fitted on development data that contains *both* regimes (embedded 
 messages, plus standalone benign trigger-word text). It would combine the guard's score, the whole-document score
 and the document's structure (segment count, tables, code), and be tested once on a fresh, pre-registered set. A
 naive maximum does not work (H2 failed), because the two scores live on different scales and thresholds. §10 reports
-that experiment.
+that experiment and its outcome.
 <!-- INTERPRETATION:END -->
 
 ## 8. Limitations
@@ -217,6 +224,9 @@ that experiment.
    splits a payload across segments, can evade them. The guard raises the cost of the templated attacks in these
    datasets; it is not a robust defence.
 8. **Recall at low FPR remains modest everywhere** (§6). The guard is a filter for human review, not a gate.
+9. **Trigger words in real e-mail.** The 0% false-positive rate on NotInject prompts does not carry over to real
+   business e-mail. On round-2 Enron mail containing "forward", "delete", "password" and similar words, the guard
+   flags 23% (ProtectAI 7%), because those words appear in directives addressed to people (§10).
 
 ## 9. Reproduce
 
@@ -236,6 +246,15 @@ python scripts/context_guard/evaluate_from_cache.py     # fit + thresholds on ct
 python scripts/context_guard/report_context.py          # comparison.md + the tables in this file
 python scripts/context_guard/export_guard_artifact.py   # artifact + live/cached parity check
 pytest tests/v5/test_v5_context_guard.py
+# round 2 (section 10)
+python scripts/context_guard/build_round2_sets.py       # dev2_email, unseen_email_3, unseen_embed_3
+for s in dev2_email unseen_email_3 unseen_embed_3; do    # (cache + add_baseline_scores as above)
+  python scripts/context_guard/cache_features.py --set $s
+  python scripts/context_guard/add_baseline_scores.py --set $s --model deepset=<dir> --model fmops=<dir>
+done
+python scripts/context_guard/evaluate_round2.py --dev-only   # fit stage 2; writes the artifact (hash must match)
+python scripts/context_guard/evaluate_round2.py              # score the round-2 tests (locked to the hash)
+python scripts/context_guard/report_round2.py
 ```
 
 - **Verified:** a fresh `download_sources.py` followed by both builders reproduced all four new sets **byte for byte**
@@ -247,3 +266,133 @@ pytest tests/v5/test_v5_context_guard.py
   `--model`.
 - The committed feature caches (`evidence/context_guard/cache/`, no text) let `evaluate_from_cache.py` and
   `report_context.py` be re-run with **no models and no datasets**.
+
+## 10. Round 2: a document-aware second stage (pre-registered)
+
+**Why.** Round 1 showed two regimes. The segment guard wins on instructions hidden inside documents, and the
+whole-document detector wins on messages written entirely by an attacker. A naive maximum failed. Stage 2
+(`experimental/context_guard/stage2.py`) is a small document-level logistic regression. It learns from development
+data containing **both** regimes how to weigh three inputs: the guard's score, the guard's score without the
+off-topic feature, and the whole-document detector score. It also uses document structure: segment count, tables,
+code, and interactions with length.
+
+**How it was kept honest.**
+- **New development data (`dev2_email`, 480 documents):** fresh LLMail-Inject phase-1 attacks, fresh Enron mail,
+  Enron mail with embedded published injections, and standalone benign trigger-word sentences.
+- **Out-of-fold scores:** stage 1 is never scored in-sample, and stage 2's thresholds come from out-of-fold scores.
+- **Same development data for every model:** each comparison model gets its thresholds from it too.
+- **Locked test:** the fitted artifact's SHA-256 and three hypotheses were pushed to GitHub
+  ([PREREGISTRATION_R2.md](evidence/context_guard/PREREGISTRATION_R2.md)) before the two fresh test sets were
+  featurised. The evaluator refuses to score them for any other artifact.
+
+<!-- ROUND2:BEGIN (generated by scripts/context_guard/report_round2.py) -->
+The tables below are generated from `evidence/context_guard/comparison_round2.json`. Full detail, including earlier sets: [comparison_round2.md](evidence/context_guard/comparison_round2.md).
+
+| Pre-registered hypothesis | Two-stage | ProtectAI | Holds? |
+|---|---|---|---|
+| H4: e-mail ROC-AUC non-inferior (≥ ProtectAI − 0.02) | 0.797 | 0.861 | **no** |
+| H5: embedded ROC-AUC superior | 0.848 | 0.731 | yes |
+| H6: pooled WARN: FPR ≤ and recall ≥ −0.05 | R 0.527, FPR 0.118 | R 0.471, FPR 0.062 | **no** |
+
+**Improvement validated (all three hold): NO.**
+
+### Round-2 test: attacker-written e-mails vs real Enron mail (clean, scored once)
+
+| Model | ROC-AUC | WARN P | R | F1 | FPR | BLOCK P | R | FPR |
+|---|---|---|---|---|---|---|---|---|
+| Two-stage (round 2) | 0.797 [0.76–0.83] | 0.788 | 0.547 [0.49–0.60] | 0.646 | 0.147 [0.11–0.19] | 0.938 | 0.100 | 0.007 |
+| ProtectAI (default), dev thresholds | 0.861 [0.83–0.89] | 0.886 | 0.570 [0.51–0.63] | 0.694 | 0.073 [0.04–0.10] | 0.962 | 0.420 | 0.017 |
+| ProtectAI, app card thresholds 0.01/0.99 | 0.861 [0.83–0.89] | 0.772 | 0.743 [0.69–0.79] | 0.757 | 0.220 [0.17–0.27] | 0.962 | 0.420 | 0.017 |
+| Context guard (round 1) | 0.518 [0.47–0.57] | 0.609 | 0.223 [0.18–0.27] | 0.327 | 0.143 [0.10–0.18] | 0.609 | 0.223 | 0.143 |
+| roberta6l | 0.613 [0.57–0.66] | 0.695 | 0.297 [0.25–0.35] | 0.416 | 0.130 [0.09–0.17] | – | 0.000 | 0.000 |
+| scratch | 0.725 [0.68–0.77] | 0.775 | 0.183 [0.14–0.23] | 0.296 | 0.053 [0.03–0.08] | 0.864 | 0.063 | 0.010 |
+| deepset | 0.819 [0.79–0.85] | 0.507 | 0.997 [0.99–1.00] | 0.672 | 0.970 [0.95–0.99] | 0.507 | 0.997 | 0.970 |
+| fmops | 0.664 [0.62–0.71] | 0.500 | 0.993 [0.98–1.00] | 0.665 | 0.993 [0.98–1.00] | 0.500 | 0.993 | 0.993 |
+
+| Subset (WARN) | n | Two-stage (round 2) | ProtectAI (default) | ProtectAI | Context guard (round 1) | roberta6l | scratch | deepset | fmops |
+|---|---|---|---|---|---|---|---|---|---|
+| enron_plain_r3 (FPR) | 150 | 0.06 | 0.07 | 0.23 | 0.05 | 0.17 | 0.05 | 0.95 | 0.99 |
+| enron_trigger_r3 (FPR) | 150 | 0.23 | 0.07 | 0.21 | 0.23 | 0.09 | 0.06 | 0.99 | 1.00 |
+| llmail_phase2_r3 (recall) | 300 | 0.55 | 0.57 | 0.74 | 0.22 | 0.30 | 0.18 | 1.00 | 0.99 |
+
+### Round-2 test: injections embedded in real Enron e-mails (clean, scored once)
+
+| Model | ROC-AUC | WARN P | R | F1 | FPR | BLOCK P | R | FPR |
+|---|---|---|---|---|---|---|---|---|
+| Two-stage (round 2) | 0.848 [0.80–0.89] | 0.890 | 0.487 [0.41–0.57] | 0.629 | 0.060 [0.03–0.10] | 1.000 | 0.080 | 0.000 |
+| ProtectAI (default), dev thresholds | 0.731 [0.68–0.79] | 0.872 | 0.273 [0.21–0.35] | 0.416 | 0.040 [0.01–0.07] | 0.929 | 0.173 | 0.013 |
+| ProtectAI, app card thresholds 0.01/0.99 | 0.731 [0.68–0.79] | 0.692 | 0.433 [0.35–0.52] | 0.533 | 0.193 [0.14–0.26] | 0.929 | 0.173 | 0.013 |
+| Context guard (round 1) | 0.848 [0.81–0.89] | 0.935 | 0.387 [0.30–0.47] | 0.547 | 0.027 [0.01–0.06] | 0.935 | 0.387 | 0.027 |
+| roberta6l | 0.747 [0.69–0.80] | 0.761 | 0.447 [0.37–0.53] | 0.563 | 0.140 [0.09–0.20] | – | 0.000 | 0.000 |
+| scratch | 0.809 [0.76–0.85] | 0.958 | 0.153 [0.09–0.21] | 0.264 | 0.007 [0.00–0.02] | 0.833 | 0.033 | 0.007 |
+| deepset | 0.757 [0.70–0.81] | 0.505 | 1.000 [1.00–1.00] | 0.671 | 0.980 [0.96–1.00] | 0.505 | 1.000 | 0.980 |
+| fmops | 0.718 [0.66–0.77] | 0.500 | 1.000 [1.00–1.00] | 0.667 | 1.000 [1.00–1.00] | 0.500 | 1.000 | 1.000 |
+
+| Subset (WARN) | n | Two-stage (round 2) | ProtectAI (default) | ProtectAI | Context guard (round 1) | roberta6l | scratch | deepset | fmops |
+|---|---|---|---|---|---|---|---|---|---|
+| embed_llmail_r3 (recall) | 75 | 0.52 | 0.33 | 0.51 | 0.37 | 0.23 | 0.08 | 1.00 | 1.00 |
+| embed_tasktracker_r3 (recall) | 75 | 0.45 | 0.21 | 0.36 | 0.40 | 0.67 | 0.23 | 1.00 | 1.00 |
+| enron_clean_r3 (FPR) | 150 | 0.06 | 0.04 | 0.19 | 0.03 | 0.14 | 0.01 | 0.98 | 1.00 |
+
+<!-- ROUND2:END -->
+
+<!-- ROUND2_INTERPRETATION:BEGIN -->
+**Verdict: round 2 is not a validated improvement.** H5 holds, but H4 and H6 fail, so by the pre-registered rule
+the current default stays.
+
+**What has now been confirmed twice on clean data.** Scoring segments finds injections *hidden inside* documents
+and e-mails better than scoring the whole document. The round-1 guard was frozen before round 2 existed, so the
+round-2 embedded set is a second clean test of it.
+
+| Clean test | Guard ROC-AUC | ProtectAI ROC-AUC | Guard at WARN | ProtectAI at WARN |
+|---|---|---|---|---|
+| Frozen test (BIPIA + NotInject, round 1) | 0.913 | 0.396 | R 0.36, FPR 0.04 | R 0.28, FPR 0.47 |
+| Injections embedded in real Enron mail (round 2) | 0.848 | 0.731 | P 0.94, R 0.39, FPR 0.03 | P 0.87, R 0.27, FPR 0.04 |
+
+On the second test the guard achieves higher recall **and** a lower false-positive rate than the default at the
+same time. In both tests, thresholds come from development data only.
+
+**What did not generalise.**
+1. **Attacker-written e-mails.** ProtectAI's whole-document score is better on all three independent e-mail test
+   sets (ROC-AUC 0.92 / 0.90 / 0.86, against the guard's 0.70 / 0.58 / 0.52 and the two-stage's 0.80 on the clean
+   round-2 set).
+2. **Real e-mail that contains trigger words.** On Enron mail containing words such as "forward", "delete" or
+   "password", the guard and the two-stage flag **23%**, against ProtectAI's 7%. Plain Enron mail is flagged at about
+   5–6%. The 0% the guard achieved on the NotInject trigger-word *prompts* does not transfer to business e-mail. There,
+   "please forward this to…" is a directive, addressed to a person, sitting among unrelated text, and the lexical cues
+   cannot tell a person from an AI as the addressee.
+3. **Stage 2 trades one regime for the other.** It recovers e-mail performance relative to the guard but gives up
+   most of the guard's frozen-test advantage (0.688 vs 0.913, development-influenced). That is the cost of leaning on
+   the whole-document score where that score fails.
+
+**Recommendation (final).**
+- **Production:** unchanged. ProtectAI v2 stays as Engine 2, labelled EXPERIMENTAL, with Engine 1 isolation, the
+  rule signals, and analyst review of WARN.
+- **Defensible use of this work:** the round-1 guard as an *additional, review-only* signal for long, multi-part
+  documents, where the threat is an instruction hidden inside otherwise benign content. That is the one setting in
+  which it beat the default twice on clean data. Using it only there is a routing rule, and the rule needs its own
+  pre-registered validation before deployment. Through `policy_bridge` the guard can only add a held WARN; it can
+  never BLOCK or release.
+- **Next justified step:** the remaining errors come from not knowing *who an instruction is addressed to*.
+  Separating "addressed to the AI" from "addressed to a person" needs a semantic model, which keyword cues cannot
+  provide. Options:
+  - a small segment-level classifier trained on labelled addressee data, which does not exist yet and would have to
+    be built and audited;
+  - a task-aware LLM check in the style of DataSentinel or PromptArmor, which is outside the zero-cost, CPU-only
+    constraint unless a local model is acceptable.
+
+  Also exclude delimiter cues inside code segments, and enlarge the development data with real e-mail containing
+  trigger words. Each change needs a fresh, pre-registered test, as in this round.
+<!-- ROUND2_INTERPRETATION:END -->
+
+## 11. Verification record
+
+| Check | Result | Evidence |
+|---|---|---|
+| Full test suite: clean Python 3.12, SQLite + PostgreSQL 16, real ProtectAI checkpoint, `pytest tests experiments/tests` | **509 passed, 1 skipped.** That is the 485 pre-existing tests, the 3 legacy real-model tests and 21 new context-guard tests. The skip is the torch-only training module, absent from the runtime environment by design. | `evidence/context_guard/test_run_full.txt` |
+| Training-pipeline tests (torch environment) | **5 passed** | `evidence/context_guard/test_run_training.txt` |
+| Frozen dev/test sets unchanged | SHA-256 `eef2da60…` / `e00b70c3…`, identical to the v5 report | `evidence/context_guard/datasets.json` |
+| New datasets reproducible | Fresh download + rebuild matches all hashes byte for byte | `evidence/context_guard/reproduction.txt` |
+| Artifacts describe what was evaluated | Live vs cached scoring parity 1.5e-6; no document within 1e-5 of a threshold; stage-2 refit reproduces the pre-registered artifact byte for byte | `export_guard_artifact.py`, `evaluate_round2.py --dev-only` |
+| Pre-registration precedes scoring | Round 1: commit `3467dfc` (GitHub 2026-10-24T07:43Z) before the confirmatory set was scored at about 08:45Z. Round 2: commit `15d4b3e` before the round-2 test sets were featurised (09:10Z) or scored (09:34Z). | git history; evaluator hash lock |
+| Application unchanged | `core/`, `sdk.py`, `ui/`, Engine 1, Engine 2 runtime and policy untouched; a test asserts the app does not import `experimental` | `tests/v5/test_v5_context_guard.py` |

@@ -1,13 +1,13 @@
-# 2026-10-24T07:58:08Z  clean Python 3.12.3, SQLite + PostgreSQL 16
-# env PPAGUARD_TEST_POSTGRES_URL / PPA_TEST_POSTGRES_URL set, PPA_UPSTREAM set; command: pytest -rs tests experiments/tests
+# 2026-10-24T09:36:09Z  clean Python 3.12.3, SQLite + PostgreSQL 16, real ProtectAI checkpoint for the legacy real-model tests
+# env: PPAGUARD_TEST_POSTGRES_URL, PPA_TEST_POSTGRES_URL, PPA_UPSTREAM, PPA_MODEL_DIR set; command: pytest -rs tests experiments/tests
 ........................................................................ [ 14%]
 ........................................................................ [ 28%]
 ........................................................................ [ 42%]
-.............sss........................................................ [ 56%]
-........................................................................ [ 71%]
-........................................................................ [ 85%]
+........................................................................ [ 56%]
+........................................................................ [ 70%]
+........................................................................ [ 84%]
 ........................................................................ [ 99%]
-...                                                                      [100%]
+.....                                                                    [100%]
 =============================== warnings summary ===============================
 tests/test_app.py::test_warn_held_then_analyst_release_is_used_once
 tests/v5/test_v5_ui.py::test_warn_held_then_analyst_release_is_used_once
@@ -18,7 +18,4 @@ tests/v5/test_v5_ui.py::test_warn_held_then_analyst_release_is_used_once
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 =========================== short test summary info ============================
 SKIPPED [1] tests/v5/test_v5_training.py:10: could not import 'torch': No module named 'torch'
-SKIPPED [1] tests/test_real_model.py:23: real checkpoint not available (set PPA_MODEL_DIR)
-SKIPPED [1] tests/test_real_model.py:27: real checkpoint not available (set PPA_MODEL_DIR)
-SKIPPED [1] tests/test_real_model.py:32: real checkpoint not available (set PPA_MODEL_DIR)
-504 passed, 4 skipped, 2 warnings in 108.85s (0:01:48)
+509 passed, 1 skipped, 2 warnings in 172.42s (0:02:52)
