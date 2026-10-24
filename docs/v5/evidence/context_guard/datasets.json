@@ -1,0 +1,106 @@
+{
+  "eval/context_sets/ctx_dev.jsonl": {
+    "sha256": "54e775c5cd38b56ba68bcb6b9e89c90802b623324a9f047ead73d8d7207e5afc",
+    "rows": 114,
+    "injected": 46,
+    "benign": 68
+  },
+  "eval/context_sets/unseen_email.jsonl": {
+    "sha256": "beb8a6fd99b1f756953ab4472cc6ea9f33e768d875ee73cca6896c68027e2f5d",
+    "rows": 961,
+    "injected": 398,
+    "benign": 563
+  },
+  "eval/context_sets/unseen_email_2.jsonl": {
+    "sha256": "40dd399fefc672c02bbdd687c7c13063e240a4fd2707e6d473ca131054bddb41",
+    "rows": 800,
+    "injected": 400,
+    "benign": 400
+  },
+  "eval/context_sets/unseen_synth.jsonl": {
+    "sha256": "b18f0b1fc2ec862ba154d1a261f50189c27088cc25af85f6683a1b31db3ccb7f",
+    "rows": 97,
+    "injected": 35,
+    "benign": 62
+  },
+  "eval/sets/validation.jsonl": {
+    "sha256": "eef2da60d6467df1e7f6a280eea05e69e83a42338da0a8fe4bd5f2b9c1965bc8",
+    "rows": 659,
+    "injected": 203,
+    "benign": 456
+  },
+  "eval/sets/test.jsonl": {
+    "sha256": "e00b70c3f1a3eed09c8adf988fc454034e8cfef138490840c78c96bb9c809266",
+    "rows": 1026,
+    "injected": 600,
+    "benign": 426
+  },
+  "build_manifest.json": {
+    "seed": 20261024,
+    "tasktracker_injections_total": 631,
+    "held_in": 318,
+    "held_out": 313,
+    "llmail_attack_sampled": 400,
+    "llmail_fp": 203,
+    "enron_ham": 403,
+    "dropped_collisions": 45,
+    "frozen_norms": 1659,
+    "sources": {
+      "tasktracker": "experiments/results/injecguard_audit_v2/candidate_train.jsonl (audited v2 candidate)",
+      "llmail": "microsoft/llmail-inject-challenge @1063bdf01ec8762b812d5e06ee768a06faa5a6f7 (MIT)",
+      "enron": "LLM-PBE/enron-email @a4761f17a981d79bd286bfff7dd0d53645aa5027 (Apache-2.0)"
+    }
+  },
+  "build_manifest_confirm.json": {
+    "seed": 20261025,
+    "attacks": 400,
+    "benign": 400,
+    "dropped_overlap_with_earlier_sets": 1,
+    "earlier_texts_checked": 2831,
+    "sources": {
+      "llmail_phase2": "microsoft/llmail-inject-challenge @1063bdf01ec8762b812d5e06ee768a06faa5a6f7",
+      "enron": "LLM-PBE/enron-email @a4761f17a981d79bd286bfff7dd0d53645aa5027, offsets i*98e6+49e6 (+2e6)"
+    }
+  },
+  "eval/context_sets/dev2_email.jsonl": {
+    "sha256": "25cd8c62b0b6e46f936ff8ada2728a29f76e2ec8d432caefe27d9a0ab146ebe4",
+    "rows": 480,
+    "injected": 300,
+    "benign": 180
+  },
+  "eval/context_sets/unseen_email_3.jsonl": {
+    "sha256": "c007ae32347aa2e7a355a513ca5c41dcdec684fb928441e66d9e11f944c556e7",
+    "rows": 600,
+    "injected": 300,
+    "benign": 300
+  },
+  "eval/context_sets/unseen_embed_3.jsonl": {
+    "sha256": "831667d5fa9843be8c04f2c32a95c1f34855952f6c223bf2bc3e7895716f6b8e",
+    "rows": 300,
+    "injected": 150,
+    "benign": 150
+  },
+  "build_manifest_round2.json": {
+    "dev2_email": {
+      "rows": 480,
+      "injected": 300,
+      "sha256": "25cd8c62b0b6e46f936ff8ada2728a29f76e2ec8d432caefe27d9a0ab146ebe4"
+    },
+    "unseen_email_3": {
+      "rows": 600,
+      "injected": 300,
+      "sha256": "c007ae32347aa2e7a355a513ca5c41dcdec684fb928441e66d9e11f944c556e7"
+    },
+    "unseen_embed_3": {
+      "rows": 300,
+      "injected": 150,
+      "sha256": "831667d5fa9843be8c04f2c32a95c1f34855952f6c223bf2bc3e7895716f6b8e"
+    },
+    "seed": 20261026,
+    "earlier_texts_checked": 3631,
+    "dropped_overlap": 1287,
+    "tasktracker_unused_held_in": 280,
+    "tasktracker_unused_held_out": 278,
+    "trigger_pattern": "\\b(ignore|disregard|override|password|delete|system|forward|execute|admin|bypass|instructions?)\\b"
+  }
+}

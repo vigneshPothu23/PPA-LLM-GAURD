@@ -1,0 +1,270 @@
+{
+  "name": "context-guard-two-stage",
+  "status": "EXPERIMENTAL - not validated for production",
+  "stage1_full": {
+    "feature_names": [
+      "ai_addressing",
+      "override_framing",
+      "directive",
+      "imperative_start",
+      "delimiter_forgery",
+      "has_url_or_email",
+      "second_person",
+      "detector_score",
+      "offtopic",
+      "kind_weight"
+    ],
+    "mean": [
+      0.003964321110009911,
+      0.007928642220019821,
+      0.019326065411298315,
+      0.018830525272547076,
+      0.007928642220019821,
+      0.0,
+      0.040634291377601585,
+      0.035245756194251715,
+      0.6085009484638244,
+      0.4251734390485629
+    ],
+    "std": [
+      0.06283792857937529,
+      0.08868922624855065,
+      0.10139337344654102,
+      0.13592621745089078,
+      0.07986963400637927,
+      1.0,
+      0.16459095482988081,
+      0.17881694753293081,
+      0.17230299451443543,
+      0.5724087080804997
+    ],
+    "weights": [
+      -0.025522938220920364,
+      -0.02124434447384721,
+      0.3476730474274466,
+      -0.30570184203258455,
+      0.28961921898173887,
+      0.0,
+      0.5357128070010791,
+      0.5259451338038348,
+      2.292940231045132,
+      -0.6460987374308941
+    ],
+    "bias": -3.1557488931907263
+  },
+  "stage1_nooff": {
+    "feature_names": [
+      "ai_addressing",
+      "override_framing",
+      "directive",
+      "imperative_start",
+      "delimiter_forgery",
+      "has_url_or_email",
+      "second_person",
+      "detector_score",
+      "offtopic",
+      "kind_weight"
+    ],
+    "mean": [
+      0.003964321110009911,
+      0.007928642220019821,
+      0.019326065411298315,
+      0.018830525272547076,
+      0.007928642220019821,
+      0.0,
+      0.040634291377601585,
+      0.035245756194251715,
+      0.0,
+      0.4251734390485629
+    ],
+    "std": [
+      0.06283792857937529,
+      0.08868922624855065,
+      0.10139337344654102,
+      0.13592621745089078,
+      0.07986963400637927,
+      1.0,
+      0.16459095482988081,
+      0.17881694753293081,
+      1.0,
+      0.5724087080804997
+    ],
+    "weights": [
+      -0.07846241110638184,
+      -0.13998159375084115,
+      0.32976232966748953,
+      -0.08037675474317495,
+      0.1468461744175827,
+      0.0,
+      0.6856713047314367,
+      0.6803735373291182,
+      0.0,
+      -0.9126132855869659
+    ],
+    "bias": -1.0411248749502706
+  },
+  "stage2": {
+    "feature_names": [
+      "z_guard",
+      "z_guard_nooff",
+      "z_wholedoc",
+      "log_nseg",
+      "has_table",
+      "has_code",
+      "z_wholedoc_x_lognseg",
+      "z_guard_x_lognseg"
+    ],
+    "mean": [
+      2.0430495142259963,
+      3.946119169670971,
+      -2.879090962930561,
+      2.302595356938861,
+      0.05723905723905724,
+      0.1835016835016835,
+      -6.229056457592673,
+      6.737462958576094
+    ],
+    "std": [
+      4.205747539080985,
+      2.9930621285467907,
+      6.67254135556812,
+      0.8578040827802027,
+      0.23229883246680608,
+      0.3870772734916538,
+      16.281920132392177,
+      8.601477975914724
+    ],
+    "weights": [
+      0.8753918012558849,
+      0.398980408568705,
+      1.0593496147555463,
+      -0.27634067318801997,
+      -0.055888945692290894,
+      -0.46966685472943076,
+      0.07733803904446766,
+      0.5896617581198316
+    ],
+    "bias": 0.3613802022980286
+  },
+  "offtopic_col": 8,
+  "thresholds_dev_oof": {
+    "WARN": 0.71,
+    "BLOCK": 0.97
+  },
+  "threshold_notes": [
+    "WARN recall 0.95 not reachable within FPR 0.1; WARN set to 0.71 (recall 0.6040462427745664, FPR 0.097)"
+  ],
+  "baseline_thresholds_same_dev": {
+    "protectai": {
+      "WARN": 0.29,
+      "BLOCK": 0.99
+    },
+    "roberta6l": {
+      "WARN": 0.75,
+      "BLOCK": 0.82
+    },
+    "scratch": {
+      "WARN": 0.73,
+      "BLOCK": 0.74
+    },
+    "deepset": {
+      "WARN": 0.99,
+      "BLOCK": 0.99
+    },
+    "fmops": {
+      "WARN": 0.99,
+      "BLOCK": 0.99
+    },
+    "guard_full": {
+      "WARN": 0.99,
+      "BLOCK": 0.99
+    }
+  },
+  "development_set": {
+    "ctx_dev_sha256": "54e775c5cd38b56ba68bcb6b9e89c90802b623324a9f047ead73d8d7207e5afc",
+    "dev2_email_sha256": "25cd8c62b0b6e46f936ff8ada2728a29f76e2ec8d432caefe27d9a0ab146ebe4",
+    "rows": 594,
+    "injected": 346
+  },
+  "dev_cross_validation": {
+    "two_stage_oof_roc_auc": 0.8754,
+    "protectai_roc_auc": 0.7756,
+    "guard_full_stage1_roc_auc": 0.8115,
+    "group:clean": {
+      "n": 38,
+      "pos": 0,
+      "two_stage_oof_flag_rate_at_WARN": 0.0,
+      "protectai_flag_rate_at_its_WARN": 0.0
+    },
+    "group:code": {
+      "n": 6,
+      "pos": 6,
+      "two_stage_oof_flag_rate_at_WARN": 0.1667,
+      "protectai_flag_rate_at_its_WARN": 0.1667
+    },
+    "group:document": {
+      "n": 14,
+      "pos": 14,
+      "two_stage_oof_flag_rate_at_WARN": 0.4286,
+      "protectai_flag_rate_at_its_WARN": 0.2857
+    },
+    "group:email": {
+      "n": 14,
+      "pos": 14,
+      "two_stage_oof_flag_rate_at_WARN": 0.5714,
+      "protectai_flag_rate_at_its_WARN": 0.4286
+    },
+    "group:embed_dev": {
+      "n": 150,
+      "pos": 150,
+      "two_stage_oof_flag_rate_at_WARN": 0.5467,
+      "protectai_flag_rate_at_its_WARN": 0.3133
+    },
+    "group:enron_dev": {
+      "n": 150,
+      "pos": 0,
+      "two_stage_oof_flag_rate_at_WARN": 0.1267,
+      "protectai_flag_rate_at_its_WARN": 0.0667
+    },
+    "group:llmail_dev": {
+      "n": 150,
+      "pos": 150,
+      "two_stage_oof_flag_rate_at_WARN": 0.7267,
+      "protectai_flag_rate_at_its_WARN": 0.7067
+    },
+    "group:table": {
+      "n": 4,
+      "pos": 4,
+      "two_stage_oof_flag_rate_at_WARN": 0.75,
+      "protectai_flag_rate_at_its_WARN": 0.25
+    },
+    "group:task_irrelevant": {
+      "n": 8,
+      "pos": 8,
+      "two_stage_oof_flag_rate_at_WARN": 0.0,
+      "protectai_flag_rate_at_its_WARN": 0.0
+    },
+    "group:trigger": {
+      "n": 30,
+      "pos": 0,
+      "two_stage_oof_flag_rate_at_WARN": 0.1667,
+      "protectai_flag_rate_at_its_WARN": 0.1
+    },
+    "group:trigger_dev": {
+      "n": 30,
+      "pos": 0,
+      "two_stage_oof_flag_rate_at_WARN": 0.0,
+      "protectai_flag_rate_at_its_WARN": 0.3667
+    }
+  },
+  "stage2_weights": {
+    "z_guard": 0.8754,
+    "z_guard_nooff": 0.399,
+    "z_wholedoc": 1.0593,
+    "log_nseg": -0.2763,
+    "has_table": -0.0559,
+    "has_code": -0.4697,
+    "z_wholedoc_x_lognseg": 0.0773,
+    "z_guard_x_lognseg": 0.5897
+  }
+}

@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 .streamlit/secrets.toml
 eval/sets/
+eval/context_sets/
 eval/repos/
 models/
 *.onnx
