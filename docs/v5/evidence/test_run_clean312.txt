@@ -1,0 +1,13 @@
+........................................................................ [ 14%]
+........................................................................ [ 29%]
+........................................................................ [ 44%]
+.............sss........................................................ [ 59%]
+........................................................................ [ 73%]
+........................................................................ [ 88%]
+........................................................                 [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/v5/test_v5_training.py:10: could not import 'torch': No module named 'torch'
+SKIPPED [1] tests/test_real_model.py:23: real checkpoint not available (set PPA_MODEL_DIR)
+SKIPPED [1] tests/test_real_model.py:27: real checkpoint not available (set PPA_MODEL_DIR)
+SKIPPED [1] tests/test_real_model.py:32: real checkpoint not available (set PPA_MODEL_DIR)
+485 passed, 4 skipped in 41.73s

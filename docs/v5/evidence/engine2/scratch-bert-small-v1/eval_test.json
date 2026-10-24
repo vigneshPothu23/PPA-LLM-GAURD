@@ -1,0 +1,125 @@
+{
+  "metrics": {
+    "n": 1026,
+    "positives": 600,
+    "roc_auc": 0.6595696400625978,
+    "average_precision": 0.6604236443874939,
+    "brier": 0.2146146423036133,
+    "ece_10": 0.04180919759031589,
+    "at_threshold": {
+      "warn": {
+        "threshold": 0.25,
+        "confusion": {
+          "tp": 600,
+          "fp": 426,
+          "tn": 0,
+          "fn": 0
+        },
+        "accuracy": 0.5847953216374269,
+        "balanced_accuracy": 0.5,
+        "injection": {
+          "precision": 0.5847953216374269,
+          "recall": 1.0,
+          "f1": 0.7380073800738007,
+          "support": 600
+        },
+        "benign": {
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 426
+        },
+        "false_positive_rate": 1.0,
+        "false_negative_rate": 0.0
+      },
+      "block": {
+        "threshold": 0.95,
+        "confusion": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 426,
+          "fn": 600
+        },
+        "accuracy": 0.4152046783625731,
+        "balanced_accuracy": 0.5,
+        "injection": {
+          "precision": null,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.4152046783625731,
+          "recall": 1.0,
+          "f1": 0.5867768595041322,
+          "support": 426
+        },
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 1.0
+      },
+      "argmax_0_5": {
+        "threshold": 0.5,
+        "confusion": {
+          "tp": 493,
+          "fp": 218,
+          "tn": 208,
+          "fn": 107
+        },
+        "accuracy": 0.6832358674463938,
+        "balanced_accuracy": 0.6549647887323944,
+        "injection": {
+          "precision": 0.6933895921237694,
+          "recall": 0.8216666666666667,
+          "f1": 0.7520976353928298,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.6603174603174603,
+          "recall": 0.48826291079812206,
+          "f1": 0.5614035087719298,
+          "support": 426
+        },
+        "false_positive_rate": 0.5117370892018779,
+        "false_negative_rate": 0.17833333333333334
+      }
+    }
+  },
+  "by_subset": {
+    "bipia_code": {
+      "n": 200,
+      "injection_rows": 150,
+      "flagged_at_warn": 1.0,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.75
+    },
+    "bipia_email": {
+      "n": 200,
+      "injection_rows": 150,
+      "flagged_at_warn": 1.0,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.75
+    },
+    "bipia_table": {
+      "n": 400,
+      "injection_rows": 300,
+      "flagged_at_warn": 1.0,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.75
+    },
+    "notinject_three": {
+      "n": 113,
+      "injection_rows": 0,
+      "flagged_at_warn": 1.0,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.0
+    },
+    "notinject_two": {
+      "n": 113,
+      "injection_rows": 0,
+      "flagged_at_warn": 1.0,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.0
+    }
+  },
+  "note": "Frozen test set, evaluated once after all choices were fixed on train/dev."
+}

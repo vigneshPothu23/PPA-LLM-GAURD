@@ -1,0 +1,19 @@
+PASS app loads (default persona = first seeded user)
+PASS member@acme.example sidebar = Command Centre | Scan Console | Scan History | System & Integrations
+PASS auditor@acme.example sidebar = Command Centre | Scan History | Applications & Policy | Members | Audit Log | System & Integrations
+PASS admin@acme.example sidebar = Command Centre | Scan Console | Review Queue | Scan History | Applications & Policy | Members | Audit Log | System & Integrations
+PASS member scan returns a recorded decision
+PASS hidden character on general profile -> WARN held
+PASS analyst released one held input (1 open before)
+PASS released input forwarded once with PPA prompt
+PASS second resubmission held again (single use)
+PASS auditor verifies audit chain
+PASS member never sees member-management UI
+PASS no auth configured -> no data shown
+PASS OIDC configured -> sign-in page only
+PASS unauthenticated /scan -> sign-in page
+PASS unauthenticated /members -> sign-in page
+PASS unauthenticated /audit -> sign-in page
+PASS Google button starts OIDC redirect (http://localhost:8597/auth/login?provider=eyJ0eXAiOiJKV1QiLC)
+PASS Engine 2 missing -> benign input BLOCKED, no prompt
+PASS no auth configured -> no data shown (re-run on current code)

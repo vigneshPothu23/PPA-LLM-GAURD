@@ -1,0 +1,8 @@
+{
+  "source": "spaCy en_core_web_trf 3.8.0 (official GitHub release), transformer component",
+  "spacy_model_version": "3.8.0",
+  "licence": "MIT",
+  "architecture": "roberta-base (12 layers, 768 hidden, byte-level BPE 50265)",
+  "note": "Weights copied unchanged; equivalence with spaCy's encoder verified by this script.",
+  "weights_sha256": "b1141f9672d13b31fd71ba6b6867c5ee458cf42818bab130d85cdf4a7f595987"
+}

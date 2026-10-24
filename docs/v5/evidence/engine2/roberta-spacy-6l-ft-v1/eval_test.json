@@ -1,0 +1,125 @@
+{
+  "metrics": {
+    "n": 1026,
+    "positives": 600,
+    "roc_auc": 0.5465688575899843,
+    "average_precision": 0.5713839713049141,
+    "brier": 0.26369422283195265,
+    "ece_10": 0.18507291275479598,
+    "at_threshold": {
+      "warn": {
+        "threshold": 0.49,
+        "confusion": {
+          "tp": 296,
+          "fp": 186,
+          "tn": 240,
+          "fn": 304
+        },
+        "accuracy": 0.5224171539961013,
+        "balanced_accuracy": 0.5283568075117371,
+        "injection": {
+          "precision": 0.6141078838174274,
+          "recall": 0.49333333333333335,
+          "f1": 0.5471349353049907,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.4411764705882353,
+          "recall": 0.5633802816901409,
+          "f1": 0.49484536082474234,
+          "support": 426
+        },
+        "false_positive_rate": 0.43661971830985913,
+        "false_negative_rate": 0.5066666666666667
+      },
+      "block": {
+        "threshold": 0.82,
+        "confusion": {
+          "tp": 0,
+          "fp": 2,
+          "tn": 424,
+          "fn": 600
+        },
+        "accuracy": 0.41325536062378165,
+        "balanced_accuracy": 0.49765258215962443,
+        "injection": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.4140625,
+          "recall": 0.9953051643192489,
+          "f1": 0.5848275862068966,
+          "support": 426
+        },
+        "false_positive_rate": 0.004694835680751174,
+        "false_negative_rate": 1.0
+      },
+      "argmax_0_5": {
+        "threshold": 0.5,
+        "confusion": {
+          "tp": 282,
+          "fp": 178,
+          "tn": 248,
+          "fn": 318
+        },
+        "accuracy": 0.5165692007797271,
+        "balanced_accuracy": 0.5260798122065727,
+        "injection": {
+          "precision": 0.6130434782608696,
+          "recall": 0.47,
+          "f1": 0.5320754716981132,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.4381625441696113,
+          "recall": 0.5821596244131455,
+          "f1": 0.5,
+          "support": 426
+        },
+        "false_positive_rate": 0.41784037558685444,
+        "false_negative_rate": 0.53
+      }
+    }
+  },
+  "by_subset": {
+    "bipia_code": {
+      "n": 200,
+      "injection_rows": 150,
+      "flagged_at_warn": 0.735,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.655
+    },
+    "bipia_email": {
+      "n": 200,
+      "injection_rows": 150,
+      "flagged_at_warn": 0.235,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.275
+    },
+    "bipia_table": {
+      "n": 400,
+      "injection_rows": 300,
+      "flagged_at_warn": 0.53,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.5
+    },
+    "notinject_three": {
+      "n": 113,
+      "injection_rows": 0,
+      "flagged_at_warn": 0.4247787610619469,
+      "blocked": 0.017699115044247787,
+      "accuracy_at_warn": 0.5752212389380531
+    },
+    "notinject_two": {
+      "n": 113,
+      "injection_rows": 0,
+      "flagged_at_warn": 0.24778761061946902,
+      "blocked": 0.0,
+      "accuracy_at_warn": 0.7522123893805309
+    }
+  },
+  "note": "Frozen test set, evaluated once after all choices were fixed on train/dev."
+}

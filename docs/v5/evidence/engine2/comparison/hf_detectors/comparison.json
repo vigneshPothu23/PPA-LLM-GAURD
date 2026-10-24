@@ -1,0 +1,808 @@
+{
+  "dev_sha256": "eef2da60d6467df1e7f6a280eea05e69e83a42338da0a8fe4bd5f2b9c1965bc8",
+  "test_sha256": "e00b70c3f1a3eed09c8adf988fc454034e8cfef138490840c78c96bb9c809266",
+  "models": {
+    "deepset_deberta": {
+      "model_id": "deepset/deberta-v3-base-injection@80dda00d0b0d",
+      "provenance": "pretrained-external",
+      "dev_contaminated": true,
+      "dev_selected_thresholds": null,
+      "seconds_for_dev_and_test": 337.3,
+      "ms_per_text": 200.2,
+      "dev": {
+        "n": 659,
+        "positives": 203,
+        "roc_auc": 0.9693198513525192,
+        "average_precision": 0.8940435322428765,
+        "at": {
+          "card_warn": {
+            "threshold": 0.5,
+            "tp": 203,
+            "fp": 87,
+            "tn": 369,
+            "fn": 0,
+            "precision": 0.7,
+            "recall": 1.0,
+            "f1": 0.8235294117647058,
+            "fpr": 0.19078947368421054,
+            "accuracy": 0.8679817905918058
+          },
+          "card_block": {
+            "threshold": 0.5,
+            "tp": 203,
+            "fp": 87,
+            "tn": 369,
+            "fn": 0,
+            "precision": 0.7,
+            "recall": 1.0,
+            "f1": 0.8235294117647058,
+            "fpr": 0.19078947368421054,
+            "accuracy": 0.8679817905918058
+          },
+          "p_gt_0.5": {
+            "threshold": 0.5,
+            "tp": 203,
+            "fp": 87,
+            "tn": 369,
+            "fn": 0,
+            "precision": 0.7,
+            "recall": 1.0,
+            "f1": 0.8235294117647058,
+            "fpr": 0.19078947368421054,
+            "accuracy": 0.8679817905918058
+          }
+        },
+        "subsets": {
+          "deepset_train": {
+            "n": 546,
+            "positives": 203,
+            "roc_auc": 0.9999856381680047,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 203,
+                "fp": 1,
+                "tn": 342,
+                "fn": 0,
+                "precision": 0.9950980392156863,
+                "recall": 1.0,
+                "f1": 0.9975429975429976,
+                "fpr": 0.0029154518950437317,
+                "accuracy": 0.9981684981684982
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 203,
+                "fp": 1,
+                "tn": 342,
+                "fn": 0,
+                "precision": 0.9950980392156863,
+                "recall": 1.0,
+                "f1": 0.9975429975429976,
+                "fpr": 0.0029154518950437317,
+                "accuracy": 0.9981684981684982
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 203,
+                "fp": 1,
+                "tn": 342,
+                "fn": 0,
+                "precision": 0.9950980392156863,
+                "recall": 1.0,
+                "f1": 0.9975429975429976,
+                "fpr": 0.0029154518950437317,
+                "accuracy": 0.9981684981684982
+              }
+            }
+          },
+          "notinject_one": {
+            "n": 113,
+            "positives": 0,
+            "roc_auc": null,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 86,
+                "tn": 27,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.7610619469026548,
+                "accuracy": 0.23893805309734514
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 86,
+                "tn": 27,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.7610619469026548,
+                "accuracy": 0.23893805309734514
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 86,
+                "tn": 27,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.7610619469026548,
+                "accuracy": 0.23893805309734514
+              }
+            }
+          }
+        }
+      },
+      "test": {
+        "n": 1026,
+        "positives": 600,
+        "roc_auc": 0.5864495305164319,
+        "average_precision": 0.6015018776124554,
+        "at": {
+          "card_warn": {
+            "threshold": 0.5,
+            "tp": 600,
+            "fp": 356,
+            "tn": 70,
+            "fn": 0,
+            "precision": 0.6276150627615062,
+            "recall": 1.0,
+            "f1": 0.7712082262210797,
+            "fpr": 0.8356807511737089,
+            "accuracy": 0.6530214424951267
+          },
+          "card_block": {
+            "threshold": 0.5,
+            "tp": 600,
+            "fp": 356,
+            "tn": 70,
+            "fn": 0,
+            "precision": 0.6276150627615062,
+            "recall": 1.0,
+            "f1": 0.7712082262210797,
+            "fpr": 0.8356807511737089,
+            "accuracy": 0.6530214424951267
+          },
+          "p_gt_0.5": {
+            "threshold": 0.5,
+            "tp": 600,
+            "fp": 356,
+            "tn": 70,
+            "fn": 0,
+            "precision": 0.6276150627615062,
+            "recall": 1.0,
+            "f1": 0.7712082262210797,
+            "fpr": 0.8356807511737089,
+            "accuracy": 0.6530214424951267
+          }
+        },
+        "subsets": {
+          "bipia_code": {
+            "n": 200,
+            "positives": 150,
+            "roc_auc": 0.6484,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              }
+            }
+          },
+          "bipia_email": {
+            "n": 200,
+            "positives": 150,
+            "roc_auc": 0.7949333333333334,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              }
+            }
+          },
+          "bipia_table": {
+            "n": 400,
+            "positives": 300,
+            "roc_auc": 0.7547833333333334,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 300,
+                "fp": 100,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 300,
+                "fp": 100,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 300,
+                "fp": 100,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              }
+            }
+          },
+          "notinject_three": {
+            "n": 113,
+            "positives": 0,
+            "roc_auc": null,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 100,
+                "tn": 13,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8849557522123894,
+                "accuracy": 0.11504424778761062
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 100,
+                "tn": 13,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8849557522123894,
+                "accuracy": 0.11504424778761062
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 100,
+                "tn": 13,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8849557522123894,
+                "accuracy": 0.11504424778761062
+              }
+            }
+          },
+          "notinject_two": {
+            "n": 113,
+            "positives": 0,
+            "roc_auc": null,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 56,
+                "tn": 57,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.49557522123893805,
+                "accuracy": 0.504424778761062
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 56,
+                "tn": 57,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.49557522123893805,
+                "accuracy": 0.504424778761062
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 56,
+                "tn": 57,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.49557522123893805,
+                "accuracy": 0.504424778761062
+              }
+            }
+          }
+        }
+      }
+    },
+    "fmops_distilbert": {
+      "model_id": "fmops/distilbert-prompt-injection@c5da1fefd33c",
+      "provenance": "pretrained-external",
+      "dev_contaminated": true,
+      "dev_selected_thresholds": null,
+      "seconds_for_dev_and_test": 134.7,
+      "ms_per_text": 79.9,
+      "dev": {
+        "n": 659,
+        "positives": 203,
+        "roc_auc": 0.9832555526747905,
+        "average_precision": 0.9645749873146254,
+        "at": {
+          "card_warn": {
+            "threshold": 0.5,
+            "tp": 203,
+            "fp": 92,
+            "tn": 364,
+            "fn": 0,
+            "precision": 0.688135593220339,
+            "recall": 1.0,
+            "f1": 0.8152610441767069,
+            "fpr": 0.20175438596491227,
+            "accuracy": 0.8603945371775418
+          },
+          "card_block": {
+            "threshold": 0.5,
+            "tp": 203,
+            "fp": 92,
+            "tn": 364,
+            "fn": 0,
+            "precision": 0.688135593220339,
+            "recall": 1.0,
+            "f1": 0.8152610441767069,
+            "fpr": 0.20175438596491227,
+            "accuracy": 0.8603945371775418
+          },
+          "p_gt_0.5": {
+            "threshold": 0.5,
+            "tp": 203,
+            "fp": 92,
+            "tn": 364,
+            "fn": 0,
+            "precision": 0.688135593220339,
+            "recall": 1.0,
+            "f1": 0.8152610441767069,
+            "fpr": 0.20175438596491227,
+            "accuracy": 0.8603945371775418
+          }
+        },
+        "subsets": {
+          "deepset_train": {
+            "n": 546,
+            "positives": 203,
+            "roc_auc": 1.0,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 203,
+                "fp": 0,
+                "tn": 343,
+                "fn": 0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "fpr": 0.0,
+                "accuracy": 1.0
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 203,
+                "fp": 0,
+                "tn": 343,
+                "fn": 0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "fpr": 0.0,
+                "accuracy": 1.0
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 203,
+                "fp": 0,
+                "tn": 343,
+                "fn": 0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "fpr": 0.0,
+                "accuracy": 1.0
+              }
+            }
+          },
+          "notinject_one": {
+            "n": 113,
+            "positives": 0,
+            "roc_auc": null,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 92,
+                "tn": 21,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8141592920353983,
+                "accuracy": 0.18584070796460178
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 92,
+                "tn": 21,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8141592920353983,
+                "accuracy": 0.18584070796460178
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 92,
+                "tn": 21,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8141592920353983,
+                "accuracy": 0.18584070796460178
+              }
+            }
+          }
+        }
+      },
+      "test": {
+        "n": 1026,
+        "positives": 600,
+        "roc_auc": 0.808274647887324,
+        "average_precision": 0.7936190583371124,
+        "at": {
+          "card_warn": {
+            "threshold": 0.5,
+            "tp": 600,
+            "fp": 351,
+            "tn": 75,
+            "fn": 0,
+            "precision": 0.6309148264984227,
+            "recall": 1.0,
+            "f1": 0.7736943907156673,
+            "fpr": 0.823943661971831,
+            "accuracy": 0.6578947368421053
+          },
+          "card_block": {
+            "threshold": 0.5,
+            "tp": 600,
+            "fp": 351,
+            "tn": 75,
+            "fn": 0,
+            "precision": 0.6309148264984227,
+            "recall": 1.0,
+            "f1": 0.7736943907156673,
+            "fpr": 0.823943661971831,
+            "accuracy": 0.6578947368421053
+          },
+          "p_gt_0.5": {
+            "threshold": 0.5,
+            "tp": 600,
+            "fp": 351,
+            "tn": 75,
+            "fn": 0,
+            "precision": 0.6309148264984227,
+            "recall": 1.0,
+            "f1": 0.7736943907156673,
+            "fpr": 0.823943661971831,
+            "accuracy": 0.6578947368421053
+          }
+        },
+        "subsets": {
+          "bipia_code": {
+            "n": 200,
+            "positives": 150,
+            "roc_auc": 0.5709333333333333,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              }
+            }
+          },
+          "bipia_email": {
+            "n": 200,
+            "positives": 150,
+            "roc_auc": 0.6754666666666667,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 150,
+                "fp": 50,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              }
+            }
+          },
+          "bipia_table": {
+            "n": 400,
+            "positives": 300,
+            "roc_auc": 0.7494333333333333,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 300,
+                "fp": 100,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 300,
+                "fp": 100,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 300,
+                "fp": 100,
+                "tn": 0,
+                "fn": 0,
+                "precision": 0.75,
+                "recall": 1.0,
+                "f1": 0.8571428571428571,
+                "fpr": 1.0,
+                "accuracy": 0.75
+              }
+            }
+          },
+          "notinject_three": {
+            "n": 113,
+            "positives": 0,
+            "roc_auc": null,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 98,
+                "tn": 15,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8672566371681416,
+                "accuracy": 0.13274336283185842
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 98,
+                "tn": 15,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8672566371681416,
+                "accuracy": 0.13274336283185842
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 98,
+                "tn": 15,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.8672566371681416,
+                "accuracy": 0.13274336283185842
+              }
+            }
+          },
+          "notinject_two": {
+            "n": 113,
+            "positives": 0,
+            "roc_auc": null,
+            "at": {
+              "card_warn": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 53,
+                "tn": 60,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.4690265486725664,
+                "accuracy": 0.5309734513274337
+              },
+              "card_block": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 53,
+                "tn": 60,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.4690265486725664,
+                "accuracy": 0.5309734513274337
+              },
+              "p_gt_0.5": {
+                "threshold": 0.5,
+                "tp": 0,
+                "fp": 53,
+                "tn": 60,
+                "fn": 0,
+                "precision": 0.0,
+                "recall": null,
+                "f1": 0.0,
+                "fpr": 0.4690265486725664,
+                "accuracy": 0.5309734513274337
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

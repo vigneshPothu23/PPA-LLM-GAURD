@@ -1,0 +1,29 @@
+PASS app loads in demo mode
+PASS member@acme.example: Command Centre | Scan Console | Scan History | System & Integrations
+PASS dev@acme.example: Command Centre | Scan Console | Scan History | Applications & Policy | Engine 2 Model | System & Integrations
+PASS auditor@acme.example: Command Centre | Scan History | Applications & Policy | Engine 2 Model | Members | Audit Log | System & Integrations
+PASS analyst@acme.example: Command Centre | Scan Console | Review Queue | Scan History | Applications & Policy | Engine 2 Model | Audit Log | System & Integrations
+PASS admin@acme.example: Command Centre | Scan Console | Review Queue | Scan History | Applications & Policy | Engine 2 Model | Members | Audit Log | System & Integrations
+INFO mail-assistant | Benign question -> ALLOW (P=0.000)
+PASS Benign question: all three engine panels shown
+INFO mail-assistant | Benign, uses 'ignore' -> WARN (P=0.349)
+PASS Benign, uses 'ignore': all three engine panels shown
+INFO mail-assistant | Direct injection -> BLOCK (P=1.000)
+PASS Direct injection: all three engine panels shown
+INFO mail-assistant | Indirect (e-mail) -> BLOCK (P=1.000)
+PASS Indirect (e-mail): all three engine panels shown
+INFO mail-assistant | Boundary forgery -> BLOCK (P=1.000)
+PASS Boundary forgery: all three engine panels shown
+INFO mail-assistant | Hidden character -> BLOCK (P=1.000)
+PASS Hidden character: all three engine panels shown
+PASS benign question ALLOWed (protected prompt produced)
+INFO direct injection decision with this model: BLOCK (a model-quality observation, not a wiring check)
+PASS boundary forgery not allowed
+PASS hidden character on general profile -> WARN held
+PASS analyst released one held input (2 open)
+PASS released input forwarded once after full re-check
+PASS second resubmission held again (single use)
+PASS auditor verifies audit chain
+PASS model page shows thresholds and the evaluation table from the model card
+PASS no browser JavaScript errors (0)
+peak RSS MB: 1355 (ProtectAI v2 ONNX, Streamlit, Python 3.12, whole walkthrough)

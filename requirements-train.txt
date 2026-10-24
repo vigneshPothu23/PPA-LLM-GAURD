@@ -1,0 +1,10 @@
+# Engine 2 training/export extras (not needed by the app or on Streamlit Community Cloud).
+# Versions used for the training run recorded in artifacts/engine2/default/model_card.json.
+-r requirements.txt
+torch==2.14.1
+transformers==5.20.1
+onnx==1.23.2
+onnxscript==0.7.2
+sentencepiece==0.2.2
+protobuf==7.36.2
+safetensors==0.8.0

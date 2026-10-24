@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ppa-guard"
+version = "5.0.0"
+description = "PPA Guard v5: prompt-injection defence console - transformer detector (Engine 2), polymorphic prompt assembly (Engine 1), ALLOW/WARN/BLOCK policy, five-role RBAC, Python SDK"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

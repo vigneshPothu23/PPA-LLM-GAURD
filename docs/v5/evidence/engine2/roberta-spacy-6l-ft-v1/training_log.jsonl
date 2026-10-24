@@ -1,0 +1,26 @@
+{"t": 1792788041.338, "event": "run.start", "run": "roberta-spacy-6l-ft-v1", "env": {"python": "3.13.16", "platform": "Linux-6.18.44-fc-v153-x86_64-with-glibc2.39", "torch": "2.14.1+cu130", "transformers": "5.20.1", "tokenizers": "0.23.3", "onnxruntime": "1.31.0", "numpy": "2.5.4", "cpu_threads": 2}}
+{"t": 1792788041.951, "event": "data.loaded", "file": "experiments/results/injecguard_audit_v2/candidate_train.jsonl", "report": {"path": "experiments/results/injecguard_audit_v2/candidate_train.jsonl", "file_sha256": "44683068ee59c4866bfc46602bb4731e6f32a835b732993543bdccd5f850ec34", "rows_read": 71201, "rows_valid": 71201, "issues": {}, "examples": {}}}
+{"t": 1792788045.188, "event": "data.dedup", "duplicates_removed": 0, "conflicting_rows_removed": 0, "conflicting_texts": 0}
+{"t": 1792788046.633, "event": "data.leakage_check", "overlaps": {"dev": 0, "test": 0}}
+{"t": 1792788046.647, "event": "data.subsampled", "rows": 32000, "reason": "max_train_rows (CPU budget); class ratio preserved"}
+{"t": 1792788048.075, "event": "data.split", "train": {"rows": 30400, "benign": 24593, "injection": 5807, "injection_share": 0.191}, "internal_val": {"rows": 1600, "benign": 1291, "injection": 309, "injection_share": 0.1931}, "dev": {"rows": 659, "benign": 456, "injection": 203, "injection_share": 0.308}}
+{"t": 1792788049.788, "event": "tokenizer.from_base_model", "base": "models/base/roberta-base-spacy-trf", "sha256": "9234ca677df0851175b21caf638442b70bf415a85b3b26a83f56e5c0aa6ef541"}
+{"t": 1792788050.416, "event": "model.truncated", "kept_layers": 6, "reason": "smaller/faster model; artifact must fit the free-hosting limits"}
+{"t": 1792788050.417, "event": "model.embeddings_frozen"}
+{"t": 1792788050.417, "event": "model.built", "mode": "pretrained", "base": "models/base/roberta-base-spacy-trf", "parameters": 82119938, "architecture": "RobertaForSequenceClassification"}
+{"t": 1792788056.662, "event": "tokenizer.verified", "report": {"vocab_size": 50265, "embedding_rows": 50265, "missing_specials": [], "max_token_id_seen": 50118, "special_wrapping": ["<s>", "</s>"], "train_token_lengths": {"n": 30400, "mean": 105.60378289473684, "p50": 35.0, "p90": 233.0, "p99": 892.0299999999952, "max": 10669, "share_over_128": 0.25125, "share_over_256": 0.08401315789473685, "share_over_512": 0.02980263157894737}}}
+{"t": 1792788063.26, "event": "train.start", "steps": 2850, "steps_per_epoch": 1900, "class_weights": [0.6180620789527893, 2.617530584335327], "train_rows": 30400, "internal_val_rows": 1600}
+{"t": 1792789043.51, "event": "train.eval", "step": 400, "epoch": 0.211, "train_loss": 0.3625, "internal_val_ap": 0.9667, "internal_val_auc": 0.9872, "internal_val_f1_at_0_5": 0.9296, "lr": 2.7435610302351625e-05, "minutes": 16.34}
+{"t": 1792789957.453, "event": "train.eval", "step": 800, "epoch": 0.421, "train_loss": 0.142, "internal_val_ap": 0.9788, "internal_val_auc": 0.9917, "internal_val_f1_at_0_5": 0.945, "lr": 2.2956326987681972e-05, "minutes": 31.57}
+{"t": 1792790829.443, "event": "train.eval", "step": 1200, "epoch": 0.632, "train_loss": 0.131, "internal_val_ap": 0.9841, "internal_val_auc": 0.995, "internal_val_f1_at_0_5": 0.9442, "lr": 1.8477043673012316e-05, "minutes": 46.1}
+{"t": 1792791760.57, "event": "train.eval", "step": 1600, "epoch": 0.842, "train_loss": 0.0937, "internal_val_ap": 0.9823, "internal_val_auc": 0.9932, "internal_val_f1_at_0_5": 0.9547, "lr": 1.3997760358342666e-05, "minutes": 61.62}
+{"t": 1792792567.034, "event": "train.eval", "step": 2000, "epoch": 1.053, "train_loss": 0.097, "internal_val_ap": 0.9899, "internal_val_auc": 0.9968, "internal_val_f1_at_0_5": 0.9628, "lr": 9.518477043673011e-06, "minutes": 75.06}
+{"t": 1792793534.125, "event": "train.eval", "step": 2400, "epoch": 1.263, "train_loss": 0.0435, "internal_val_ap": 0.9894, "internal_val_auc": 0.9962, "internal_val_f1_at_0_5": 0.9592, "lr": 5.03919372900336e-06, "minutes": 91.18}
+{"t": 1792794449.501, "event": "train.eval", "step": 2800, "epoch": 1.474, "train_loss": 0.0388, "internal_val_ap": 0.9901, "internal_val_auc": 0.9968, "internal_val_f1_at_0_5": 0.9597, "lr": 5.599104143337066e-07, "minutes": 106.44}
+{"t": 1792794621.504, "event": "train.eval", "step": 2850, "epoch": 1.5, "train_loss": 0.0319, "internal_val_ap": 0.9901, "internal_val_auc": 0.9968, "internal_val_f1_at_0_5": 0.9613, "lr": 0.0, "minutes": 109.3}
+{"t": 1792794621.505, "event": "train.end", "stopped": "completed", "best_step": 2800, "best_internal_val_ap": 0.9901, "minutes": 109.3}
+{"t": 1792794646.961, "event": "export.onnx_fp32", "max_abs_logit_diff_vs_torch": 8.106231689453125e-06, "bytes": 328606881}
+{"t": 1792794789.748, "event": "export.quantization", "ap_fp32": 0.9901293000834713, "ap_int8": 0.989470644047349, "max_prob_diff": 0.6099778422208921, "decision_agreement_at_0_5": 0.9975, "bytes_fp32": 328606881, "bytes_int8": 82535814, "shipped": "int8"}
+{"t": 1792794794.743, "event": "calibration.dev", "temperature": 6.2889, "warn": 0.49, "block": 0.82, "notes": ["WARN recall 0.95 not reachable within FPR 0.1; WARN set to 0.49 (recall 0.3645320197044335, FPR 0.092)"]}
+{"t": 1792794909.301, "event": "evaluation.test", "auc": 0.5465688575899843, "ap": 0.5713839713049141}
+{"t": 1792794909.657, "event": "run.end", "artifact": "models/runs/roberta-spacy-6l-ft-v1/artifact", "shipped": "int8"}

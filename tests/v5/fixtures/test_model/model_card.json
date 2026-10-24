@@ -1,0 +1,23 @@
+{
+  "model_id": "TEST-ONLY tiny random BERT",
+  "provenance": "test-only",
+  "labels": [
+    "benign",
+    "injection"
+  ],
+  "injection_index": 1,
+  "max_length": 32,
+  "window_stride": 16,
+  "max_windows": 3,
+  "temperature": 1.0,
+  "thresholds": {
+    "warn": 0.5,
+    "block": 0.9,
+    "source": "test fixture"
+  },
+  "files": {
+    "model.onnx": "d3ee511247ec012987e3589838fecde97eeb99cd41c662fce1feeca718da02e7",
+    "tokenizer.json": "bfc08762c7a2daf93cfdfedc016ab9fba85beb6f203565ca4bc390dd593427ec"
+  },
+  "note": "Random weights. Integration tests only. Not a detector."
+}

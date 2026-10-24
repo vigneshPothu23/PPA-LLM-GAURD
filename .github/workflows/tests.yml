@@ -1,0 +1,13 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements-dev.txt
+      - run: git clone -q https://github.com/zhilongwang/LLMAgentProtector.git /tmp/up && git -C /tmp/up checkout -q b3c20a3bd5356772aa15546807f9d7666e91b54d
+      - run: python -m pytest -q
+        env: {PPA_UPSTREAM: /tmp/up}

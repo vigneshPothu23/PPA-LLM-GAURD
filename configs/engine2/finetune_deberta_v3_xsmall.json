@@ -1,0 +1,21 @@
+{
+  "_comment": "Fine-tunes the pretrained microsoft/deberta-v3-xsmall (MIT licence) with its own tokenizer. Needs access to huggingface.co, or set base_model to a local folder that contains the downloaded model. CPU: about 1-2 hours for 30k rows; a free Colab/Kaggle GPU is much faster.",
+  "run_name": "deberta-v3-xsmall-ft-v1",
+  "train_file": "experiments/results/injecguard_audit_v2/candidate_train.jsonl",
+  "group_flags": "experiments/results/injecguard_audit_v2/kept_row_flags.jsonl",
+  "dev_file": "eval/sets/validation.jsonl",
+  "test_file": "eval/sets/test.jsonl",
+  "output_dir": "models/runs",
+  "mode": "pretrained",
+  "base_model": "microsoft/deberta-v3-xsmall",
+  "max_length": 256,
+  "batch_size": 16,
+  "epochs": 1,
+  "learning_rate": 0.00003,
+  "warmup_ratio": 0.06,
+  "eval_every": 250,
+  "patience": 6,
+  "max_train_rows": 30000,
+  "seed": 42,
+  "threads": 2
+}

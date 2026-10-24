@@ -1,0 +1,40 @@
+# PPA Guard - teal + charcoal theme (matches the agreed demo UI)
+[server]
+headless = true
+maxUploadSize = 1
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = "none"
+
+[theme]
+base = "dark"
+primaryColor = "#1FB5A3"
+backgroundColor = "#0C1113"
+secondaryBackgroundColor = "#171D20"
+textColor = "#E9EEF0"
+borderColor = "#252D31"
+showWidgetBorder = true
+baseRadius = "8px"
+buttonRadius = "8px"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+codeFont = "JetBrains Mono:https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+codeBackgroundColor = "#101416"
+linkColor = "#2EC9B5"
+headingFontWeights = [700, 650, 600, 600, 600, 600]
+greenColor = "#3CC48C"
+orangeColor = "#E0A23B"
+redColor = "#E36A5E"
+blueColor = "#2EC9B5"
+dataframeHeaderBackgroundColor = "#161C1F"
+dataframeBorderColor = "#232A2E"
+chartCategoricalColors = ["#1FB5A3", "#E0A23B", "#E36A5E", "#8A979D"]
+
+[theme.sidebar]
+backgroundColor = "#161C1F"
+secondaryBackgroundColor = "#1C2427"
+borderColor = "#232A2E"

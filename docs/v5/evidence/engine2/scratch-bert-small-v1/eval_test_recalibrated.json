@@ -1,0 +1,125 @@
+{
+  "metrics": {
+    "n": 1026,
+    "positives": 600,
+    "roc_auc": 0.6595696400625978,
+    "average_precision": 0.6604236443874939,
+    "brier": 0.2146146423036133,
+    "ece_10": 0.04180919759031589,
+    "at_threshold": {
+      "warn": {
+        "threshold": 0.42,
+        "confusion": {
+          "tp": 517,
+          "fp": 237,
+          "tn": 189,
+          "fn": 83
+        },
+        "accuracy": 0.6881091617933723,
+        "balanced_accuracy": 0.6526643192488263,
+        "injection": {
+          "precision": 0.6856763925729443,
+          "recall": 0.8616666666666667,
+          "f1": 0.7636632200886262,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.6948529411764706,
+          "recall": 0.44366197183098594,
+          "f1": 0.5415472779369627,
+          "support": 426
+        },
+        "false_positive_rate": 0.5563380281690141,
+        "false_negative_rate": 0.13833333333333334
+      },
+      "block": {
+        "threshold": 0.73,
+        "confusion": {
+          "tp": 204,
+          "fp": 99,
+          "tn": 327,
+          "fn": 396
+        },
+        "accuracy": 0.5175438596491229,
+        "balanced_accuracy": 0.5538028169014084,
+        "injection": {
+          "precision": 0.6732673267326733,
+          "recall": 0.34,
+          "f1": 0.451827242524917,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.45228215767634855,
+          "recall": 0.7676056338028169,
+          "f1": 0.5691906005221932,
+          "support": 426
+        },
+        "false_positive_rate": 0.2323943661971831,
+        "false_negative_rate": 0.66
+      },
+      "argmax_0_5": {
+        "threshold": 0.5,
+        "confusion": {
+          "tp": 493,
+          "fp": 218,
+          "tn": 208,
+          "fn": 107
+        },
+        "accuracy": 0.6832358674463938,
+        "balanced_accuracy": 0.6549647887323944,
+        "injection": {
+          "precision": 0.6933895921237694,
+          "recall": 0.8216666666666667,
+          "f1": 0.7520976353928298,
+          "support": 600
+        },
+        "benign": {
+          "precision": 0.6603174603174603,
+          "recall": 0.48826291079812206,
+          "f1": 0.5614035087719298,
+          "support": 426
+        },
+        "false_positive_rate": 0.5117370892018779,
+        "false_negative_rate": 0.17833333333333334
+      }
+    }
+  },
+  "by_subset": {
+    "bipia_code": {
+      "n": 200,
+      "injection_rows": 150,
+      "flagged_at_warn": 0.66,
+      "blocked": 0.005,
+      "accuracy_at_warn": 0.71
+    },
+    "bipia_email": {
+      "n": 200,
+      "injection_rows": 150,
+      "flagged_at_warn": 0.705,
+      "blocked": 0.1,
+      "accuracy_at_warn": 0.595
+    },
+    "bipia_table": {
+      "n": 400,
+      "injection_rows": 300,
+      "flagged_at_warn": 1.0,
+      "blocked": 0.6625,
+      "accuracy_at_warn": 0.75
+    },
+    "notinject_three": {
+      "n": 113,
+      "injection_rows": 0,
+      "flagged_at_warn": 0.415929203539823,
+      "blocked": 0.11504424778761062,
+      "accuracy_at_warn": 0.584070796460177
+    },
+    "notinject_two": {
+      "n": 113,
+      "injection_rows": 0,
+      "flagged_at_warn": 0.3008849557522124,
+      "blocked": 0.035398230088495575,
+      "accuracy_at_warn": 0.6991150442477876
+    }
+  },
+  "reason": "first threshold rule had no false-positive budget and produced WARN 0.25 (flags 100% of dev benign rows) and BLOCK 0.95 (blocks nothing); rule revised to bound FPR (WARN <= 10%, BLOCK <= 1%) on the dev set. Model weights unchanged."
+}

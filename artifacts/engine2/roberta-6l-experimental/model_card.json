@@ -1,0 +1,209 @@
+{
+  "model_id": "ppaguard/roberta-spacy-6l-ft-v1",
+  "provenance": "fine-tuned-ppaguard",
+  "labels": [
+    "benign",
+    "injection"
+  ],
+  "injection_index": 1,
+  "max_length": 256,
+  "window_stride": 128,
+  "max_windows": 8,
+  "temperature": 6.288949560467485,
+  "thresholds": {
+    "warn": 0.49,
+    "block": 0.82,
+    "source": "selected on frozen dev set (659 rows)"
+  },
+  "files": {
+    "model.onnx": "2a27e1d78ecdfeee19661ab3ee0da83f7d57859213cb153f7dbc17c6eee578f5",
+    "tokenizer.json": "9234ca677df0851175b21caf638442b70bf415a85b3b26a83f56e5c0aa6ef541"
+  },
+  "base_model": "models/base/roberta-base-spacy-trf",
+  "architecture": "RobertaForSequenceClassification",
+  "parameters": 82119938,
+  "quantization": {
+    "ap_fp32": 0.9901293000834713,
+    "ap_int8": 0.989470644047349,
+    "max_prob_diff": 0.6099778422208921,
+    "decision_agreement_at_0_5": 0.9975,
+    "bytes_fp32": 328606881,
+    "bytes_int8": 82535814,
+    "shipped": "int8"
+  },
+  "tokenizer": {
+    "vocab_size": 50265,
+    "embedding_rows": 50265,
+    "missing_specials": [],
+    "max_token_id_seen": 50118,
+    "special_wrapping": [
+      "<s>",
+      "</s>"
+    ],
+    "train_token_lengths": {
+      "n": 30400,
+      "mean": 105.60378289473684,
+      "p50": 35.0,
+      "p90": 233.0,
+      "p99": 892.0299999999952,
+      "max": 10669,
+      "share_over_128": 0.25125,
+      "share_over_256": 0.08401315789473685,
+      "share_over_512": 0.02980263157894737
+    }
+  },
+  "training": {
+    "best": {
+      "ap": 0.9901293000834713,
+      "auc": 0.9967762879180987,
+      "f1_at_0_5": 0.9597423510466989,
+      "step": 2800
+    },
+    "stopped": "completed",
+    "steps_run": 2850,
+    "minutes": 109.3,
+    "class_weights": [
+      0.6180620789527893,
+      2.617530584335327
+    ],
+    "best_dir": "models/runs/roberta-spacy-6l-ft-v1/checkpoint_best",
+    "config": {
+      "run_name": "roberta-spacy-6l-ft-v1",
+      "train_file": "experiments/results/injecguard_audit_v2/candidate_train.jsonl",
+      "dev_file": "eval/sets/validation.jsonl",
+      "output_dir": "models/runs",
+      "test_file": "eval/sets/test.jsonl",
+      "group_flags": "experiments/results/injecguard_audit_v2/kept_row_flags.jsonl",
+      "mode": "pretrained",
+      "base_model": "models/base/roberta-base-spacy-trf",
+      "scratch": {
+        "vocab_size": 16000,
+        "hidden_size": 256,
+        "num_hidden_layers": 4,
+        "num_attention_heads": 4,
+        "intermediate_size": 1024,
+        "lowercase": true,
+        "min_frequency": 2
+      },
+      "max_length": 256,
+      "batch_size": 16,
+      "epochs": 1.5,
+      "learning_rate": 3e-05,
+      "weight_decay": 0.01,
+      "warmup_ratio": 0.06,
+      "class_weighting": "balanced",
+      "internal_val_fraction": 0.05,
+      "eval_every": 400,
+      "patience": 4,
+      "seed": 42,
+      "threads": 2,
+      "max_train_minutes": 120,
+      "max_train_rows": 32000,
+      "block_min_precision": 0.98,
+      "warn_min_recall": 0.95,
+      "max_warn_fpr": 0.1,
+      "max_block_fpr": 0.01,
+      "truncate_layers": 6,
+      "freeze_embeddings": true,
+      "quantize": true,
+      "max_quantization_ap_drop": 0.005
+    }
+  },
+  "data": {
+    "train_file_sha256": "44683068ee59c4866bfc46602bb4731e6f32a835b732993543bdccd5f850ec34",
+    "dev_file_sha256": "eef2da60d6467df1e7f6a280eea05e69e83a42338da0a8fe4bd5f2b9c1965bc8",
+    "test_file_sha256": "e00b70c3f1a3eed09c8adf988fc454034e8cfef138490840c78c96bb9c809266",
+    "train": {
+      "rows": 30400,
+      "benign": 24593,
+      "injection": 5807,
+      "injection_share": 0.191
+    },
+    "internal_val": {
+      "rows": 1600,
+      "benign": 1291,
+      "injection": 309,
+      "injection_share": 0.1931
+    },
+    "dev": {
+      "rows": 659,
+      "benign": 456,
+      "injection": 203,
+      "injection_share": 0.308
+    },
+    "train_manifest": "9be72b06c15e2825bc0abc686759414d5db8b027885048d154dd3047691d29f6",
+    "internal_val_manifest": "97f0f20d16aff649498adbc4dca82fe506e7c4b7c8fd46e426862b48e6f7c13b",
+    "dedup": {
+      "duplicates_removed": 0,
+      "conflicting_rows_removed": 0,
+      "conflicting_texts": 0
+    },
+    "leakage_overlaps": {
+      "dev": 0,
+      "test": 0
+    }
+  },
+  "environment": {
+    "python": "3.13.16",
+    "platform": "Linux-6.18.44-fc-v153-x86_64-with-glibc2.39",
+    "torch": "2.14.1+cu130",
+    "transformers": "5.20.1",
+    "tokenizers": "0.23.3",
+    "onnxruntime": "1.31.0",
+    "numpy": "2.5.4",
+    "cpu_threads": 2
+  },
+  "metrics": {
+    "dev": {
+      "n": 659,
+      "roc_auc": 0.7158089188488462,
+      "average_precision": 0.5348982194575995,
+      "ece_10": 0.06774984867127509,
+      "warn": {
+        "threshold": 0.49,
+        "injection_recall": 0.3645320197044335,
+        "injection_precision": 0.6379310344827587,
+        "fpr": 0.09210526315789473
+      },
+      "block": {
+        "threshold": 0.82,
+        "injection_recall": 0.0049261083743842365,
+        "injection_precision": 1.0,
+        "fpr": 0.0
+      }
+    },
+    "test": {
+      "n": 1026,
+      "roc_auc": 0.5465688575899843,
+      "average_precision": 0.5713839713049141,
+      "ece_10": 0.18507291275479598,
+      "warn": {
+        "threshold": 0.49,
+        "injection_recall": 0.49333333333333335,
+        "injection_precision": 0.6141078838174274,
+        "fpr": 0.43661971830985913
+      },
+      "block": {
+        "threshold": 0.82,
+        "injection_recall": 0.0,
+        "injection_precision": 0.0,
+        "fpr": 0.004694835680751174
+      }
+    }
+  },
+  "created_utc": "2026-10-23T22:35:09Z",
+  "base_provenance": {
+    "source": "spaCy en_core_web_trf 3.8.0 (official GitHub release), transformer component",
+    "spacy_model_version": "3.8.0",
+    "licence": "MIT",
+    "architecture": "roberta-base (12 layers, 768 hidden, byte-level BPE 50265)",
+    "note": "Weights copied unchanged; equivalence with spaCy's encoder verified by this script.",
+    "weights_sha256": "b1141f9672d13b31fd71ba6b6867c5ee458cf42818bab130d85cdf4a7f595987"
+  },
+  "packaged": {
+    "utc": "2026-10-24T05:03:05Z",
+    "from": "models/runs/roberta-spacy-6l-ft-v1/artifact"
+  },
+  "status": "experimental",
+  "limitations": "Weak out-of-distribution generalisation: frozen dev ROC-AUC 0.716, frozen test ROC-AUC 0.547; hidden injections inside e-mails ranked below chance (test e-mail subset ROC-AUC 0.355). Not suitable as a sole detector."
+}

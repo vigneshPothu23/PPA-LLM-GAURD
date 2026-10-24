@@ -1,0 +1,22 @@
+{
+  "_comment": "No pretrained weights: WordPiece tokenizer trained on the training split and a 4-layer BERT-style encoder trained from random initialisation. Runs on 2 CPU cores. Paths are relative to the repository root.",
+  "run_name": "scratch-bert-small-v1",
+  "train_file": "experiments/results/injecguard_audit_v2/candidate_train.jsonl",
+  "group_flags": "experiments/results/injecguard_audit_v2/kept_row_flags.jsonl",
+  "dev_file": "eval/sets/validation.jsonl",
+  "test_file": "eval/sets/test.jsonl",
+  "output_dir": "models/runs",
+  "mode": "from_scratch",
+  "scratch": {"vocab_size": 16000, "hidden_size": 256, "num_hidden_layers": 4, "num_attention_heads": 4,
+              "intermediate_size": 1024, "lowercase": true, "min_frequency": 2},
+  "max_length": 256,
+  "batch_size": 32,
+  "epochs": 3,
+  "learning_rate": 0.0003,
+  "warmup_ratio": 0.06,
+  "eval_every": 300,
+  "patience": 6,
+  "max_train_minutes": 100,
+  "seed": 42,
+  "threads": 2
+}
