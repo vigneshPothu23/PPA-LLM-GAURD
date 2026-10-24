@@ -7,6 +7,8 @@ Layout written under --dest (default eval/context_sets/_sources, git-ignored):
   llmail2/  labelled_unique_submissions_phase2.json                             (unseen_email_2)
   enron/    chunk_0..9.bin  byte ranges [i*98e6, i*98e6+3e6]                    (unseen_email)
   enron2/   chunk_0..9.bin  byte ranges [i*98e6+49e6, i*98e6+51e6]              (unseen_email_2)
+  enron3/   chunk_0..9.bin  byte ranges [i*98e6+24.5e6, +2e6]                  (round-2 test sets)
+  enron4/   chunk_0..9.bin  byte ranges [i*98e6+73.5e6, +2e6]                  (round-2 development set)
 
 Sources (licences as published on Hugging Face):
   microsoft/llmail-inject-challenge @1063bdf01ec8762b812d5e06ee768a06faa5a6f7 (MIT)
@@ -55,6 +57,8 @@ def main() -> None:
         s = i * 98_000_000
         fetch(ENRON, d / f"enron/chunk_{i}.bin", (s, s + 3_000_000))
         fetch(ENRON, d / f"enron2/chunk_{i}.bin", (s + 49_000_000, s + 51_000_000))
+        fetch(ENRON, d / f"enron3/chunk_{i}.bin", (s + 24_500_000, s + 26_500_000))
+        fetch(ENRON, d / f"enron4/chunk_{i}.bin", (s + 73_500_000, s + 75_500_000))
     print("done:", d)
 
 

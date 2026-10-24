@@ -172,7 +172,10 @@ INPUT = {"ctx_dev": ROOT / "eval/context_sets/ctx_dev.jsonl",
          "frozen_dev": ROOT / "eval/sets/validation.jsonl", "frozen_test": ROOT / "eval/sets/test.jsonl",
          "unseen_synth": ROOT / "eval/context_sets/unseen_synth.jsonl",
          "unseen_email": ROOT / "eval/context_sets/unseen_email.jsonl",
-         "unseen_email_2": ROOT / "eval/context_sets/unseen_email_2.jsonl"}
+         "unseen_email_2": ROOT / "eval/context_sets/unseen_email_2.jsonl",
+         "dev2_email": ROOT / "eval/context_sets/dev2_email.jsonl",
+         "unseen_email_3": ROOT / "eval/context_sets/unseen_email_3.jsonl",
+         "unseen_embed_3": ROOT / "eval/context_sets/unseen_embed_3.jsonl"}
 
 
 def complete(set_name: str) -> bool:

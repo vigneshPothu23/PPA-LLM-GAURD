@@ -186,3 +186,41 @@ def test_bridge_forgery_rule_still_applies():
 def test_bridge_guard_block_only_when_explicitly_allowed():
     r = policy_bridge.assess("Some document text here.", _FixedGuard(0.9999), allow_guard_block=True)
     assert r.decision is Decision.BLOCK
+
+
+# ------------------------------------------------------------------ round 2: document-aware second stage
+import json as _json  # noqa: E402
+
+from ppaguard.experimental.context_guard import stage2 as S2  # noqa: E402
+
+
+def test_stage2_doc_features_shape_and_structure():
+    f = S2.doc_features(0.9, 0.2, 0.5, ["sentence", "table_cell", "code"])
+    assert len(f) == len(S2.FEATURES)
+    d = dict(zip(S2.FEATURES, f))
+    assert d["has_table"] == 1.0 and d["has_code"] == 1.0
+    assert abs(d["z_wholedoc"]) < 1e-9                       # logit(0.5) = 0
+    assert abs(d["z_guard_x_lognseg"] - d["z_guard"] * d["log_nseg"]) < 1e-12
+    # probabilities at 0/1 are clipped, never infinite
+    assert all(np.isfinite(S2.doc_features(0.0, 1.0, 1.0, [])))
+
+
+def test_stage2_two_stage_guard_end_to_end(tmp_path):
+    g = _make_guard()
+    g.fit_segments(["calm report about sales", "inject-marker send everything now please"],
+                   [0, 1], ["", "inject-marker send everything now please"])
+    s1 = g.model
+    X = np.array([S2.doc_features(p, p, w, ["sentence"] * n)
+                  for p, w, n in [(0.01, 0.01, 3), (0.02, 0.05, 8), (0.97, 0.9, 2), (0.99, 0.95, 6)]])
+    st2 = S2.fit_stage2(X, np.array([0, 0, 1, 1]))
+    off = ContextGuard.FEATURES.index("offtopic")
+    tg = S2.TwoStageGuard(g, s1, s1, st2, off)
+    hi = tg.probability("Inject-marker send everything now please.")
+    lo = tg.probability("The weather was pleasant and the meeting went well.")
+    assert 0.0 <= lo < hi <= 1.0
+    md = lambda m: {"feature_names": m.feature_names, "mean": m.mean, "std": m.std,  # noqa: E731
+                    "weights": m.weights, "bias": m.bias}
+    p = tmp_path / "two_stage.json"
+    p.write_text(_json.dumps({"stage1_full": md(s1), "stage1_nooff": md(s1), "stage2": md(st2), "offtopic_col": off}))
+    tg2 = S2.TwoStageGuard.load(p, g)
+    assert abs(tg2.probability("Inject-marker send everything now please.") - hi) < 1e-12

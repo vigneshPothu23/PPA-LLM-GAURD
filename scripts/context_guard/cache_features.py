@@ -39,6 +39,9 @@ SETS = {
     "unseen_synth": ROOT / "eval/context_sets/unseen_synth.jsonl",
     "unseen_email": ROOT / "eval/context_sets/unseen_email.jsonl",
     "unseen_email_2": ROOT / "eval/context_sets/unseen_email_2.jsonl",  # confirmatory, scored once
+    "dev2_email": ROOT / "eval/context_sets/dev2_email.jsonl",          # round-2 development
+    "unseen_email_3": ROOT / "eval/context_sets/unseen_email_3.jsonl",  # round-2 test, scored once
+    "unseen_embed_3": ROOT / "eval/context_sets/unseen_embed_3.jsonl",  # round-2 test, scored once
 }
 CACHE = ROOT / "docs/v5/evidence/context_guard/cache"
 
