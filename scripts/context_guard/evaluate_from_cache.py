@@ -181,7 +181,10 @@ INPUT = {"ctx_dev": ROOT / "eval/context_sets/ctx_dev.jsonl",
          "unseen_email_2": ROOT / "eval/context_sets/unseen_email_2.jsonl",
          "dev2_email": ROOT / "eval/context_sets/dev2_email.jsonl",
          "unseen_email_3": ROOT / "eval/context_sets/unseen_email_3.jsonl",
-         "unseen_embed_3": ROOT / "eval/context_sets/unseen_embed_3.jsonl"}
+         "unseen_embed_3": ROOT / "eval/context_sets/unseen_embed_3.jsonl",
+         "bipia_train_dev": ROOT / "experiments/data/dev_indirect_v2.jsonl",
+         "scenarios_dev": ROOT / "eval/scenarios/scenarios_dev.jsonl",
+         "scenarios_holdout": ROOT / "eval/scenarios/scenarios_holdout.jsonl"}
 
 
 def complete(set_name: str) -> bool:

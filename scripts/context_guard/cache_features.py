@@ -42,6 +42,9 @@ SETS = {
     "dev2_email": ROOT / "eval/context_sets/dev2_email.jsonl",          # round-2 development
     "unseen_email_3": ROOT / "eval/context_sets/unseen_email_3.jsonl",  # round-2 test, scored once
     "unseen_embed_3": ROOT / "eval/context_sets/unseen_embed_3.jsonl",  # round-2 test, scored once
+    "bipia_train_dev": ROOT / "experiments/data/dev_indirect_v2.jsonl",  # BIPIA TRAIN contexts (dev only)
+    "scenarios_dev": ROOT / "eval/scenarios/scenarios_dev.jsonl",        # synthetic suite, dev split
+    "scenarios_holdout": ROOT / "eval/scenarios/scenarios_holdout.jsonl",  # synthetic suite, holdout split
 }
 CACHE = ROOT / "docs/v5/evidence/context_guard/cache"
 
@@ -103,7 +106,7 @@ def main() -> None:
                 continue
             text = r["text"]
             segs, X, _, _, _ = guard.segment_matrix(text)
-            payload = r.get("payload", "")
+            payload = r.get("payload_text") or r.get("attack") or r.get("payload") or ""
             seg_pos = [j for j, s in enumerate(segs) if payload and overlaps(s.text, payload)]
             wholedoc = {"protectai": float(det.probability(text)[0])}
             for nm, d in baselines.items():

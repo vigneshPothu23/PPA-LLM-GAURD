@@ -1,0 +1,548 @@
+{
+  "dev_sets": [
+    "frozen_dev",
+    "ctx_dev",
+    "dev2_email",
+    "bipia_train_dev",
+    "scenarios_dev"
+  ],
+  "n": 2325,
+  "positives": 1343,
+  "variants": {
+    "A_shipped": {
+      "oof_pooled": {
+        "tp": 572,
+        "fp": 212,
+        "fn": 771,
+        "tn": 770,
+        "recall": 0.4259,
+        "fpr": 0.2159,
+        "precision": 0.7296,
+        "f1": 0.5378,
+        "youden": 0.21,
+        "blocked_benign": 53,
+        "blocked_attack": 278
+      },
+      "youden_ci95": [
+        0.1709,
+        0.2484
+      ],
+      "per_set": {
+        "frozen_dev": {
+          "tp": 101,
+          "fp": 34,
+          "fn": 102,
+          "tn": 422,
+          "recall": 0.4975,
+          "fpr": 0.0746,
+          "precision": 0.7481,
+          "f1": 0.5976,
+          "youden": 0.423,
+          "blocked_benign": 18,
+          "blocked_attack": 73
+        },
+        "ctx_dev": {
+          "tp": 19,
+          "fp": 9,
+          "fn": 27,
+          "tn": 59,
+          "recall": 0.413,
+          "fpr": 0.1324,
+          "precision": 0.6786,
+          "f1": 0.5135,
+          "youden": 0.2807,
+          "blocked_benign": 1,
+          "blocked_attack": 9
+        },
+        "dev2_email": {
+          "tp": 192,
+          "fp": 39,
+          "fn": 108,
+          "tn": 141,
+          "recall": 0.64,
+          "fpr": 0.2167,
+          "precision": 0.8312,
+          "f1": 0.7232,
+          "youden": 0.4233,
+          "blocked_benign": 11,
+          "blocked_attack": 112
+        },
+        "bipia_train_dev": {
+          "tp": 214,
+          "fp": 121,
+          "fn": 527,
+          "tn": 126,
+          "recall": 0.2888,
+          "fpr": 0.4899,
+          "precision": 0.6388,
+          "f1": 0.3978,
+          "youden": -0.2011,
+          "blocked_benign": 20,
+          "blocked_attack": 54
+        },
+        "scenarios_dev": {
+          "tp": 46,
+          "fp": 9,
+          "fn": 7,
+          "tn": 22,
+          "recall": 0.8679,
+          "fpr": 0.2903,
+          "precision": 0.8364,
+          "f1": 0.8519,
+          "youden": 0.5776,
+          "blocked_benign": 3,
+          "blocked_attack": 30
+        }
+      },
+      "fold_thresholds": []
+    },
+    "B_recal": {
+      "oof_pooled": {
+        "tp": 357,
+        "fp": 98,
+        "fn": 986,
+        "tn": 884,
+        "recall": 0.2658,
+        "fpr": 0.0998,
+        "precision": 0.7846,
+        "f1": 0.3971,
+        "youden": 0.166,
+        "blocked_benign": 53,
+        "blocked_attack": 278
+      },
+      "youden_ci95": [
+        0.1349,
+        0.1975
+      ],
+      "per_set": {
+        "frozen_dev": {
+          "tp": 86,
+          "fp": 28,
+          "fn": 117,
+          "tn": 428,
+          "recall": 0.4236,
+          "fpr": 0.0614,
+          "precision": 0.7544,
+          "f1": 0.5426,
+          "youden": 0.3622,
+          "blocked_benign": 18,
+          "blocked_attack": 73
+        },
+        "ctx_dev": {
+          "tp": 11,
+          "fp": 3,
+          "fn": 35,
+          "tn": 65,
+          "recall": 0.2391,
+          "fpr": 0.0441,
+          "precision": 0.7857,
+          "f1": 0.3667,
+          "youden": 0.195,
+          "blocked_benign": 1,
+          "blocked_attack": 9
+        },
+        "dev2_email": {
+          "tp": 146,
+          "fp": 19,
+          "fn": 154,
+          "tn": 161,
+          "recall": 0.4867,
+          "fpr": 0.1056,
+          "precision": 0.8848,
+          "f1": 0.628,
+          "youden": 0.3811,
+          "blocked_benign": 11,
+          "blocked_attack": 112
+        },
+        "bipia_train_dev": {
+          "tp": 80,
+          "fp": 44,
+          "fn": 661,
+          "tn": 203,
+          "recall": 0.108,
+          "fpr": 0.1781,
+          "precision": 0.6452,
+          "f1": 0.185,
+          "youden": -0.0702,
+          "blocked_benign": 20,
+          "blocked_attack": 54
+        },
+        "scenarios_dev": {
+          "tp": 34,
+          "fp": 4,
+          "fn": 19,
+          "tn": 27,
+          "recall": 0.6415,
+          "fpr": 0.129,
+          "precision": 0.8947,
+          "f1": 0.7473,
+          "youden": 0.5125,
+          "blocked_benign": 3,
+          "blocked_attack": 30
+        }
+      },
+      "fold_thresholds": [
+        {
+          "warn": 0.63,
+          "block": 0.99
+        },
+        {
+          "warn": 0.5,
+          "block": 0.99
+        },
+        {
+          "warn": 0.64,
+          "block": 0.99
+        },
+        {
+          "warn": 0.5,
+          "block": 0.99
+        },
+        {
+          "warn": 0.5,
+          "block": 0.99
+        }
+      ]
+    },
+    "C_segmax": {
+      "oof_pooled": {
+        "tp": 565,
+        "fp": 112,
+        "fn": 778,
+        "tn": 870,
+        "recall": 0.4207,
+        "fpr": 0.1141,
+        "precision": 0.8346,
+        "f1": 0.5594,
+        "youden": 0.3066,
+        "blocked_benign": 53,
+        "blocked_attack": 278
+      },
+      "youden_ci95": [
+        0.2738,
+        0.3386
+      ],
+      "per_set": {
+        "frozen_dev": {
+          "tp": 88,
+          "fp": 20,
+          "fn": 115,
+          "tn": 436,
+          "recall": 0.4335,
+          "fpr": 0.0439,
+          "precision": 0.8148,
+          "f1": 0.5659,
+          "youden": 0.3896,
+          "blocked_benign": 18,
+          "blocked_attack": 73
+        },
+        "ctx_dev": {
+          "tp": 19,
+          "fp": 7,
+          "fn": 27,
+          "tn": 61,
+          "recall": 0.413,
+          "fpr": 0.1029,
+          "precision": 0.7308,
+          "f1": 0.5278,
+          "youden": 0.3101,
+          "blocked_benign": 1,
+          "blocked_attack": 9
+        },
+        "dev2_email": {
+          "tp": 248,
+          "fp": 40,
+          "fn": 52,
+          "tn": 140,
+          "recall": 0.8267,
+          "fpr": 0.2222,
+          "precision": 0.8611,
+          "f1": 0.8435,
+          "youden": 0.6044,
+          "blocked_benign": 11,
+          "blocked_attack": 112
+        },
+        "bipia_train_dev": {
+          "tp": 165,
+          "fp": 39,
+          "fn": 576,
+          "tn": 208,
+          "recall": 0.2227,
+          "fpr": 0.1579,
+          "precision": 0.8088,
+          "f1": 0.3492,
+          "youden": 0.0648,
+          "blocked_benign": 20,
+          "blocked_attack": 54
+        },
+        "scenarios_dev": {
+          "tp": 45,
+          "fp": 6,
+          "fn": 8,
+          "tn": 25,
+          "recall": 0.8491,
+          "fpr": 0.1935,
+          "precision": 0.8824,
+          "f1": 0.8654,
+          "youden": 0.6555,
+          "blocked_benign": 3,
+          "blocked_attack": 30
+        }
+      },
+      "fold_thresholds": [
+        {
+          "warn": 0.999,
+          "block": 0.99
+        },
+        {
+          "warn": 0.97,
+          "block": 0.99
+        },
+        {
+          "warn": 0.995,
+          "block": 0.99
+        },
+        {
+          "warn": 0.999,
+          "block": 0.99
+        },
+        {
+          "warn": 0.99,
+          "block": 0.99
+        }
+      ]
+    },
+    "D_or_guard_r1": {
+      "oof_pooled": {
+        "tp": 788,
+        "fp": 140,
+        "fn": 555,
+        "tn": 842,
+        "recall": 0.5867,
+        "fpr": 0.1426,
+        "precision": 0.8491,
+        "f1": 0.694,
+        "youden": 0.4442,
+        "blocked_benign": 53,
+        "blocked_attack": 278
+      },
+      "youden_ci95": [
+        0.4085,
+        0.478
+      ],
+      "per_set": {
+        "frozen_dev": {
+          "tp": 82,
+          "fp": 19,
+          "fn": 121,
+          "tn": 437,
+          "recall": 0.4039,
+          "fpr": 0.0417,
+          "precision": 0.8119,
+          "f1": 0.5395,
+          "youden": 0.3623,
+          "blocked_benign": 18,
+          "blocked_attack": 73
+        },
+        "ctx_dev": {
+          "tp": 26,
+          "fp": 8,
+          "fn": 20,
+          "tn": 60,
+          "recall": 0.5652,
+          "fpr": 0.1176,
+          "precision": 0.7647,
+          "f1": 0.65,
+          "youden": 0.4476,
+          "blocked_benign": 1,
+          "blocked_attack": 9
+        },
+        "dev2_email": {
+          "tp": 264,
+          "fp": 67,
+          "fn": 36,
+          "tn": 113,
+          "recall": 0.88,
+          "fpr": 0.3722,
+          "precision": 0.7976,
+          "f1": 0.8368,
+          "youden": 0.5078,
+          "blocked_benign": 11,
+          "blocked_attack": 112
+        },
+        "bipia_train_dev": {
+          "tp": 373,
+          "fp": 42,
+          "fn": 368,
+          "tn": 205,
+          "recall": 0.5034,
+          "fpr": 0.17,
+          "precision": 0.8988,
+          "f1": 0.6453,
+          "youden": 0.3333,
+          "blocked_benign": 20,
+          "blocked_attack": 54
+        },
+        "scenarios_dev": {
+          "tp": 43,
+          "fp": 4,
+          "fn": 10,
+          "tn": 27,
+          "recall": 0.8113,
+          "fpr": 0.129,
+          "precision": 0.9149,
+          "f1": 0.86,
+          "youden": 0.6823,
+          "blocked_benign": 3,
+          "blocked_attack": 30
+        }
+      },
+      "fold_thresholds": [
+        {
+          "warn_doc": 0.999,
+          "warn_guard": 0.96,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.999,
+          "warn_guard": 0.86,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.999,
+          "warn_guard": 0.96,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.999,
+          "warn_guard": 0.96,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.999,
+          "warn_guard": 0.94,
+          "block": 0.99
+        }
+      ]
+    },
+    "E_or_guard_cv": {
+      "oof_pooled": {
+        "tp": 513,
+        "fp": 112,
+        "fn": 830,
+        "tn": 870,
+        "recall": 0.382,
+        "fpr": 0.1141,
+        "precision": 0.8208,
+        "f1": 0.5213,
+        "youden": 0.2679,
+        "blocked_benign": 53,
+        "blocked_attack": 278
+      },
+      "youden_ci95": [
+        0.2336,
+        0.303
+      ],
+      "per_set": {
+        "frozen_dev": {
+          "tp": 74,
+          "fp": 18,
+          "fn": 129,
+          "tn": 438,
+          "recall": 0.3645,
+          "fpr": 0.0395,
+          "precision": 0.8043,
+          "f1": 0.5017,
+          "youden": 0.3251,
+          "blocked_benign": 18,
+          "blocked_attack": 73
+        },
+        "ctx_dev": {
+          "tp": 16,
+          "fp": 3,
+          "fn": 30,
+          "tn": 65,
+          "recall": 0.3478,
+          "fpr": 0.0441,
+          "precision": 0.8421,
+          "f1": 0.4923,
+          "youden": 0.3037,
+          "blocked_benign": 1,
+          "blocked_attack": 9
+        },
+        "dev2_email": {
+          "tp": 209,
+          "fp": 42,
+          "fn": 91,
+          "tn": 138,
+          "recall": 0.6967,
+          "fpr": 0.2333,
+          "precision": 0.8327,
+          "f1": 0.7586,
+          "youden": 0.4633,
+          "blocked_benign": 11,
+          "blocked_attack": 112
+        },
+        "bipia_train_dev": {
+          "tp": 173,
+          "fp": 43,
+          "fn": 568,
+          "tn": 204,
+          "recall": 0.2335,
+          "fpr": 0.1741,
+          "precision": 0.8009,
+          "f1": 0.3615,
+          "youden": 0.0594,
+          "blocked_benign": 20,
+          "blocked_attack": 54
+        },
+        "scenarios_dev": {
+          "tp": 41,
+          "fp": 6,
+          "fn": 12,
+          "tn": 25,
+          "recall": 0.7736,
+          "fpr": 0.1935,
+          "precision": 0.8723,
+          "f1": 0.82,
+          "youden": 0.58,
+          "blocked_benign": 3,
+          "blocked_attack": 30
+        }
+      },
+      "fold_thresholds": [
+        {
+          "warn_doc": 0.995,
+          "warn_guard": 0.99,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.995,
+          "warn_guard": 0.995,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.99,
+          "warn_guard": 0.99,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.99,
+          "warn_guard": 0.99,
+          "block": 0.99
+        },
+        {
+          "warn_doc": 0.995,
+          "warn_guard": 0.98,
+          "block": 0.99
+        }
+      ]
+    }
+  },
+  "threshold_free_auc": {
+    "pdoc": 0.7281,
+    "segmax": 0.7798,
+    "guard_r1": 0.8479,
+    "guard_cv_oof": 0.8069
+  }
+}

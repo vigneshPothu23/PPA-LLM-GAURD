@@ -1,0 +1,407 @@
+{
+ "env": {
+  "python": "3.12.3",
+  "machine": "x86_64",
+  "threads": 2
+ },
+ "sets": {
+  "validation": 659,
+  "test": 1026
+ },
+ "deberta": {
+  "model_id": "protectai/deberta-v3-base-prompt-injection-v2@89b085cd3304",
+  "load_seconds": 6.8,
+  "rss_mb_after_load": null,
+  "rss_mb_load_increase": null,
+  "rss_mb_after_eval": null,
+  "val_tuned_threshold": 0.9768,
+  "truncated_inputs": {
+   "validation": 1,
+   "test": 64
+  },
+  "latency_ms": {
+   "mean": 299.4,
+   "p50": 237.4,
+   "p95": 783.3
+  },
+  "validation": {
+   "official>0.92": {
+    "overall": {
+     "n": 659,
+     "tp": 82,
+     "fp": 24,
+     "fn": 121,
+     "tn": 432,
+     "fpr": 0.0526,
+     "recall": 0.4039,
+     "precision": 0.7736,
+     "f1": 0.5307
+    },
+    "deepset_train": {
+     "n": 546,
+     "tp": 82,
+     "fp": 3,
+     "fn": 121,
+     "tn": 340,
+     "fpr": 0.0087,
+     "recall": 0.4039,
+     "precision": 0.9647,
+     "f1": 0.5694
+    },
+    "notinject_one": {
+     "n": 113,
+     "tp": 0,
+     "fp": 21,
+     "fn": 0,
+     "tn": 92,
+     "fpr": 0.1858,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    }
+   },
+   "argmax>0.50": {
+    "overall": {
+     "n": 659,
+     "tp": 87,
+     "fp": 29,
+     "fn": 116,
+     "tn": 427,
+     "fpr": 0.0636,
+     "recall": 0.4286,
+     "precision": 0.75,
+     "f1": 0.5455
+    },
+    "deepset_train": {
+     "n": 546,
+     "tp": 87,
+     "fp": 4,
+     "fn": 116,
+     "tn": 339,
+     "fpr": 0.0117,
+     "recall": 0.4286,
+     "precision": 0.956,
+     "f1": 0.5918
+    },
+    "notinject_one": {
+     "n": 113,
+     "tp": 0,
+     "fp": 25,
+     "fn": 0,
+     "tn": 88,
+     "fpr": 0.2212,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    }
+   },
+   "val-tuned>=0.9768": {
+    "overall": {
+     "n": 659,
+     "tp": 80,
+     "fp": 19,
+     "fn": 123,
+     "tn": 437,
+     "fpr": 0.0417,
+     "recall": 0.3941,
+     "precision": 0.8081,
+     "f1": 0.5298
+    },
+    "deepset_train": {
+     "n": 546,
+     "tp": 80,
+     "fp": 1,
+     "fn": 123,
+     "tn": 342,
+     "fpr": 0.0029,
+     "recall": 0.3941,
+     "precision": 0.9877,
+     "f1": 0.5634
+    },
+    "notinject_one": {
+     "n": 113,
+     "tp": 0,
+     "fp": 18,
+     "fn": 0,
+     "tn": 95,
+     "fpr": 0.1593,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    }
+   }
+  },
+  "test": {
+   "official>0.92": {
+    "overall": {
+     "n": 1026,
+     "tp": 84,
+     "fp": 137,
+     "fn": 516,
+     "tn": 289,
+     "fpr": 0.3216,
+     "recall": 0.14,
+     "precision": 0.3801,
+     "f1": 0.2046
+    },
+    "notinject_two": {
+     "n": 113,
+     "tp": 0,
+     "fp": 51,
+     "fn": 0,
+     "tn": 62,
+     "fpr": 0.4513,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "notinject_test": {
+     "n": 226,
+     "tp": 0,
+     "fp": 106,
+     "fn": 0,
+     "tn": 120,
+     "fpr": 0.469,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "notinject_three": {
+     "n": 113,
+     "tp": 0,
+     "fp": 55,
+     "fn": 0,
+     "tn": 58,
+     "fpr": 0.4867,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "bipia_email": {
+     "n": 200,
+     "tp": 77,
+     "fp": 30,
+     "fn": 73,
+     "tn": 20,
+     "fpr": 0.6,
+     "recall": 0.5133,
+     "precision": 0.7196,
+     "f1": 0.5992
+    },
+    "bipia_all": {
+     "n": 800,
+     "tp": 84,
+     "fp": 31,
+     "fn": 516,
+     "tn": 169,
+     "fpr": 0.155,
+     "recall": 0.14,
+     "precision": 0.7304,
+     "f1": 0.235
+    },
+    "bipia_table": {
+     "n": 400,
+     "tp": 7,
+     "fp": 1,
+     "fn": 293,
+     "tn": 99,
+     "fpr": 0.01,
+     "recall": 0.0233,
+     "precision": 0.875,
+     "f1": 0.0455
+    },
+    "bipia_code": {
+     "n": 200,
+     "tp": 0,
+     "fp": 0,
+     "fn": 150,
+     "tn": 50,
+     "fpr": 0.0,
+     "recall": 0.0,
+     "precision": null,
+     "f1": 0.0
+    }
+   },
+   "argmax>0.50": {
+    "overall": {
+     "n": 1026,
+     "tp": 97,
+     "fp": 153,
+     "fn": 503,
+     "tn": 273,
+     "fpr": 0.3592,
+     "recall": 0.1617,
+     "precision": 0.388,
+     "f1": 0.2282
+    },
+    "notinject_two": {
+     "n": 113,
+     "tp": 0,
+     "fp": 59,
+     "fn": 0,
+     "tn": 54,
+     "fpr": 0.5221,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "notinject_test": {
+     "n": 226,
+     "tp": 0,
+     "fp": 120,
+     "fn": 0,
+     "tn": 106,
+     "fpr": 0.531,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "notinject_three": {
+     "n": 113,
+     "tp": 0,
+     "fp": 61,
+     "fn": 0,
+     "tn": 52,
+     "fpr": 0.5398,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "bipia_email": {
+     "n": 200,
+     "tp": 87,
+     "fp": 31,
+     "fn": 63,
+     "tn": 19,
+     "fpr": 0.62,
+     "recall": 0.58,
+     "precision": 0.7373,
+     "f1": 0.6493
+    },
+    "bipia_all": {
+     "n": 800,
+     "tp": 97,
+     "fp": 33,
+     "fn": 503,
+     "tn": 167,
+     "fpr": 0.165,
+     "recall": 0.1617,
+     "precision": 0.7462,
+     "f1": 0.2658
+    },
+    "bipia_table": {
+     "n": 400,
+     "tp": 10,
+     "fp": 2,
+     "fn": 290,
+     "tn": 98,
+     "fpr": 0.02,
+     "recall": 0.0333,
+     "precision": 0.8333,
+     "f1": 0.0641
+    },
+    "bipia_code": {
+     "n": 200,
+     "tp": 0,
+     "fp": 0,
+     "fn": 150,
+     "tn": 50,
+     "fpr": 0.0,
+     "recall": 0.0,
+     "precision": null,
+     "f1": 0.0
+    }
+   },
+   "val-tuned>=0.9768": {
+    "overall": {
+     "n": 1026,
+     "tp": 78,
+     "fp": 122,
+     "fn": 522,
+     "tn": 304,
+     "fpr": 0.2864,
+     "recall": 0.13,
+     "precision": 0.39,
+     "f1": 0.195
+    },
+    "notinject_two": {
+     "n": 113,
+     "tp": 0,
+     "fp": 45,
+     "fn": 0,
+     "tn": 68,
+     "fpr": 0.3982,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "notinject_test": {
+     "n": 226,
+     "tp": 0,
+     "fp": 94,
+     "fn": 0,
+     "tn": 132,
+     "fpr": 0.4159,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "notinject_three": {
+     "n": 113,
+     "tp": 0,
+     "fp": 49,
+     "fn": 0,
+     "tn": 64,
+     "fpr": 0.4336,
+     "recall": null,
+     "precision": 0.0,
+     "f1": null
+    },
+    "bipia_email": {
+     "n": 200,
+     "tp": 74,
+     "fp": 27,
+     "fn": 76,
+     "tn": 23,
+     "fpr": 0.54,
+     "recall": 0.4933,
+     "precision": 0.7327,
+     "f1": 0.5896
+    },
+    "bipia_all": {
+     "n": 800,
+     "tp": 78,
+     "fp": 28,
+     "fn": 522,
+     "tn": 172,
+     "fpr": 0.14,
+     "recall": 0.13,
+     "precision": 0.7358,
+     "f1": 0.221
+    },
+    "bipia_table": {
+     "n": 400,
+     "tp": 4,
+     "fp": 1,
+     "fn": 296,
+     "tn": 99,
+     "fpr": 0.01,
+     "recall": 0.0133,
+     "precision": 0.8,
+     "f1": 0.0262
+    },
+    "bipia_code": {
+     "n": 200,
+     "tp": 0,
+     "fp": 0,
+     "fn": 150,
+     "tn": 50,
+     "fpr": 0.0,
+     "recall": 0.0,
+     "precision": null,
+     "f1": 0.0
+    }
+   }
+  }
+ }
+}
