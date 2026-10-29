@@ -43,6 +43,19 @@ def render(ctx) -> None:
     kpis([("WARN if P >", f"{t['warn']:.2f}", t.get("source", "")), ("BLOCK if P >", f"{t['block']:.2f}", t.get("source", "")),
           ("Temperature", f"{card.temperature:.3f}", "calibration (1.0 = none)"),
           ("Max length", str(card.max_length), f"windows of {card.max_length}, up to {card.max_windows}")])
+    ctxsig = getattr(det, "context_signal", None)
+    st.markdown("#### Context signal (hidden instructions inside documents)")
+    if ctxsig is None:
+        st.warning("Context signal disabled (PPAGUARD_CONTEXT=off): only the whole-document score is used.")
+    else:
+        kpis([("Context WARN if P >", f"{t.get('context_warn', 0.95):.2f}", "WARN only - never BLOCK"),
+              ("Segments", "sentences · table cells · code comments", "each scored separately"),
+              ("Features", "10", "lexical cues, Engine 2 on the segment, off-topic distance (MiniLM-L6)"),
+              ("Model", "logistic regression", "artifacts/context_guard/guard_full.json")])
+        st.caption(f"{ctxsig.model_id}. A whole-document score dilutes a short instruction hidden in a long README, e-mail, "
+                   "table or log; the context signal scores each segment and holds the input for review when one looks like "
+                   "an instruction aimed at the AI. Selected on development data only; see docs/v5/FINAL_EVALUATION.md "
+                   "for its measured holdout results and remaining errors.")
 
     metrics = extra.get("metrics") or {}
     rows = []
@@ -58,6 +71,8 @@ def render(ctx) -> None:
                          "Level": f"{lvl.upper()} > {a['threshold']:.2f}", "Injection recall": _pct(a["injection_recall"]),
                          "Injection precision": _pct(a["injection_precision"]), "False-positive rate": _pct(a["fpr"])})
     st.markdown("#### Evaluation (measured by the pipeline, not typed in)")
+    st.caption("Whole-document detector alone, at the thresholds in each row (the earlier WARN 0.01 configuration). "
+               "Results of the final configuration (detector + context signal): docs/v5/FINAL_EVALUATION.md.")
     if rows:
         st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
     else:

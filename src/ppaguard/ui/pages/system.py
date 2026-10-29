@@ -29,6 +29,8 @@ def render(ctx) -> None:
     st.markdown(
         chip(f"Engine 2: {m.model_id or 'not loaded'}", (None if m.provenance == "test-only" else True) if m.loaded else False)
         + (chip(m.detail.get("provenance_text", ""), None) if m.loaded else "")
+        + (chip("Engine 2 context signal: " + ("active" if getattr(ctx.wf.detector, "context_signal", None) else "off"),
+                True if getattr(ctx.wf.detector, "context_signal", None) else None) if m.loaded else "")
         + chip("Engine 1: polymorphic prompt assembly", True)
         + chip(f"Database: {ctx.db_backend}" + (" (persistent)" if ctx.db_persistent else " (local file; resets on Streamlit Cloud restarts)"),
                True if ctx.db_persistent else None)
@@ -42,7 +44,8 @@ def render(ctx) -> None:
     st.markdown(
         "1. **Sign-in and role** - the caller's organization, role and application assignment are re-read from the database.\n"
         "2. **Engine 2** - the transformer detector scores the text (overlapping 512-token windows for long input) and "
-        "returns a calibrated P(injection).\n"
+        "returns a calibrated P(injection); its context signal scores each sentence, table cell and code comment so that a "
+        "short instruction hidden in a long document is not diluted (it can raise WARN, never BLOCK).\n"
         "3. **Policy** - thresholds from the model card (or a labelled application override) plus rule signals give "
         "ALLOW, WARN or BLOCK; any failed check is BLOCK.\n"
         "4. **Engine 1** - only when forwarding: the text is enclosed in a fresh random boundary inside the application's "

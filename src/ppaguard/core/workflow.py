@@ -151,6 +151,7 @@ class SecurityWorkflow:
         decision, forward = pr.decision, pr.forward
         policy_info = {"decision": pr.decision.name, "detector_band": pr.band.name if pr.band is not None else None,
                        "warn_threshold": cfg.warn_threshold, "block_threshold": cfg.block_threshold,
+                       "context_warn_threshold": cfg.context_warn_threshold,
                        "thresholds_source": cfg.thresholds_source, "warn_handling": cfg.warn_handling,
                        "held": pr.held, "flagged": pr.flagged, "profile": app["profile"]}
 
