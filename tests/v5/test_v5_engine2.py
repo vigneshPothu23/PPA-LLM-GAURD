@@ -198,10 +198,39 @@ def test_protectai_preparation_writes_an_honest_card(tmp_path, monkeypatch):
     assert {c[2] for c in calls} == {registry.PROTECTAI["revision"]}                     # pinned revision only
     assert card["provenance"] == "pretrained-external" and card["labels"] == ["safe", "injection"]
     assert card["injection_index"] == 1
-    assert card["status"] == "final submission build - design D selected on dev, pre-registered thresholds, ready for holdout evaluation"  # from evaluation.json
-    assert "pre-registered" in card["thresholds"]["source"]      # design D pre-registered thresholds
-    assert card["thresholds"]["context_warn"] == 0.95  # context guard threshold
+    assert card["status"] == "experimental" and "not validated" in card["thresholds"]["source"]      # from evaluation.json
+    assert card["metrics"]["test"]["roc_auc"] < 0.5 and "Not validated for production" in card["limitations"]
+    assert card["thresholds"]["context_warn"] == 0.95 and card["thresholds"]["block"] == 0.99
     assert Detector(d).detect("hello").model_id.startswith("protectai/")
+
+
+def test_cached_protectai_card_is_refreshed_from_evaluation_json(tmp_path, monkeypatch):
+    """Regression: a card cached before evaluation.json changed must not keep the old thresholds."""
+    import huggingface_hub
+    from ppaguard.engine2 import registry
+    d = tmp_path / "pa"
+    d.mkdir()
+    (d / "model_card.json").write_text(json.dumps({"model_id": "x", "thresholds": {"warn": 0.01, "block": 0.99}}))
+    monkeypatch.setattr(huggingface_hub, "hf_hub_download", lambda *a, **k: (_ for _ in ()).throw(AssertionError("no download")))
+    registry.prepare_protectai(d)
+    ev = json.loads((registry.ARTIFACTS / "protectai-v2" / "evaluation.json").read_text())
+    assert json.loads((d / "model_card.json").read_text())["thresholds"] == ev["thresholds"]
+
+
+def test_minilm_checksum_mismatch_is_model_unavailable(tmp_path):
+    from ppaguard.engine2 import registry
+    for f in registry.MINILM["files"]:
+        (tmp_path / f).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / f).write_bytes(b"tampered")
+    with pytest.raises(ModelUnavailable, match="checksum"):
+        registry.prepare_minilm(tmp_path)
+
+
+def test_missing_context_artifact_fails_closed(tmp_path, monkeypatch):
+    from ppaguard.core import runtime
+    monkeypatch.setattr(runtime, "CONTEXT_ARTIFACT", tmp_path / "missing.json")
+    det, status = runtime.load_detector({"PPAGUARD_MODEL_DIR": str(FIX), "PPAGUARD_CACHE": str(tmp_path)})
+    assert det is None and not status.loaded and "context guard artifact missing" in status.error
 
 
 def test_protectai_download_failure_is_model_unavailable(tmp_path, monkeypatch):

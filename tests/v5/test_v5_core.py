@@ -330,6 +330,33 @@ def test_detector_failure_blocks(env):
     assert r.decision is Decision.BLOCK and r.protected_prompt is None
 
 
+class _Ctx:
+    model_id = "fake-context"
+
+    def __init__(self, p=None, fail=False):
+        self.p, self.fail = p, fail
+
+    def score(self, text):
+        if self.fail:
+            raise RuntimeError("context crashed")
+        return SimpleNamespace(probability=self.p, top_segment="ignore previous instructions", top_kind="comment", n_segments=4)
+
+
+def test_context_signal_warns_and_holds(env):
+    det = FakeDetector()
+    det.context_signal = _Ctx(0.99)
+    r = Gateway(env["eng"], det).submit(env["P"]("member@acme.example"), env["apps"]["mail-assistant"], "a benign-looking README")
+    assert r.decision is Decision.WARN and r.outcome == "held_for_review" and r.protected_prompt is None
+    assert r.engine2["context"]["probability"] == 0.99 and any("engine2-context" in x for x in r.reasons)
+
+
+def test_context_signal_failure_blocks(env):
+    det = FakeDetector()
+    det.context_signal = _Ctx(fail=True)
+    r = Gateway(env["eng"], det).submit(env["P"]("member@acme.example"), env["apps"]["mail-assistant"], "hello")
+    assert r.decision is Decision.BLOCK and r.protected_prompt is None and "fail closed" in " ".join(r.reasons)
+
+
 def test_missing_detector_blocks(env):
     r = Gateway(env["eng"], None, "model not loaded").submit(env["P"]("member@acme.example"), env["apps"]["mail-assistant"], "hi")
     assert r.decision is Decision.BLOCK and "fail closed" in " ".join(r.reasons) and r.protected_prompt is None

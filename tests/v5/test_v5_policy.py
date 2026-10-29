@@ -99,3 +99,25 @@ def test_profile_validation_rules():
 def test_redaction():
     t = P.redact("mail jo@x.com key sk-ABCDEFGHIJKLMNOP1234 card 4111 1111 1111 1111 call +44 20 7946 0958")
     assert "jo@x.com" not in t and "[EMAIL]" in t and "[SECRET]" in t and "[NUMBER]" in t and "[PHONE]" in t
+
+
+# ------------------------------------------------------------------ final build: Engine 2 context signal (WARN only)
+@pytest.mark.parametrize("ctx, expected", [(None, Decision.ALLOW), (0.95, Decision.ALLOW), (0.951, Decision.WARN),
+                                           (1.0, Decision.WARN)])
+def test_context_signal_can_only_warn(ctx, expected):
+    cfg = PolicyConfig(warn_threshold=0.99, block_threshold=0.99, context_warn_threshold=0.95)
+    r = evaluate("a README", cfg, probability=0.001, detector_error=None, context_probability=ctx)
+    assert r.decision is expected
+    assert all(x.decision is not Decision.BLOCK for x in r.reasons)
+
+
+def test_context_signal_never_lowers_a_block():
+    cfg = PolicyConfig(warn_threshold=0.99, block_threshold=0.99, context_warn_threshold=0.95)
+    r = evaluate("x", cfg, probability=0.999, detector_error=None, context_probability=0.0)
+    assert r.decision is Decision.BLOCK and not r.forward
+
+
+def test_profiles_pass_the_model_card_context_threshold():
+    app = dict(P.defaults("general"), profile="general")
+    cfg = P.to_config(app, {"warn": 0.99, "block": 0.99, "context_warn": 0.9, "source": "t"})
+    assert cfg.context_warn_threshold == 0.9

@@ -35,8 +35,10 @@ PROTECTAI = {
 MINILM = {
     "repo": "sentence-transformers/all-MiniLM-L6-v2",
     "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
-    "files": ("pytorch_model.bin", "config.json", "tokenizer.json", "tokenizer_config.json", "modules.json"),
     "license": "Apache-2.0",
+    # the ONNX export used when the context guard was fitted and selected (scripts/context_guard/paths.py)
+    "files": {"onnx/model.onnx": "6fd5d72fe4589f189f8ebc006442dbb529bb7ce38f8082112682524616046452",
+              "tokenizer.json": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"},
 }
 
 
@@ -89,28 +91,24 @@ def prepare_protectai(dest: str | Path, cache_dir: str | Path | None = None) -> 
 
 
 def prepare_minilm(dest: str | Path, cache_dir: str | Path | None = None) -> Path:
-    """Downloads the pinned sentence-transformers/all-MiniLM-L6-v2 model for context embeddings.
-
-    Returns the destination directory (which will contain the model files).
-    Network access to huggingface.co needed.
-    """
-    try:
-        from huggingface_hub import hf_hub_download
-    except ImportError as e:  # pragma: no cover
-        raise ModelUnavailable("huggingface_hub is not installed") from e
+    """Places the pinned MiniLM-L6 ONNX export (context guard embeddings) in `dest` and verifies its SHA-256 hashes."""
     dest = Path(dest)
-    dest.mkdir(parents=True, exist_ok=True)
-
-    # Check if model is already cached
-    if all((dest / f).is_file() for f in MINILM["files"]):
-        return dest
-
-    try:
-        for f in MINILM["files"]:
-            hf_hub_download(MINILM["repo"], f, revision=MINILM["revision"], cache_dir=cache_dir, local_dir=dest)
-    except Exception as e:
-        raise ModelUnavailable(f"could not download {MINILM['repo']}: {type(e).__name__}: {e}") from e
-
+    missing = [f for f in MINILM["files"] if not (dest / f).is_file()]
+    if missing:
+        try:
+            from huggingface_hub import hf_hub_download
+        except ImportError as e:  # pragma: no cover
+            raise ModelUnavailable("huggingface_hub is not installed") from e
+        try:
+            for f in missing:
+                src = Path(hf_hub_download(MINILM["repo"], f, revision=MINILM["revision"], cache_dir=cache_dir))
+                (dest / f).parent.mkdir(parents=True, exist_ok=True)
+                (dest / f).write_bytes(src.read_bytes())
+        except Exception as e:
+            raise ModelUnavailable(f"could not download {MINILM['repo']}: {type(e).__name__}: {e}") from e
+    for f, expected in MINILM["files"].items():
+        if _sha256(dest / f) != expected:
+            raise ModelUnavailable(f"MiniLM {f} checksum mismatch")
     return dest
 
 

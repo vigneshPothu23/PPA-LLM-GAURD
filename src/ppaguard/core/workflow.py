@@ -129,20 +129,14 @@ class SecurityWorkflow:
                           "partial": d.partial, "latency_ms": round(d.latency_ms, 1),
                           "evidence": [list(x) for x in d.evidence]}
 
-                    # Context guard: score if available (WARN-only signal)
-                    if self.detector.context_signal is not None and is_text:
-                        try:
-                            ctx_result = self.detector.context_signal.score(text)
-                            context_probability = round(ctx_result.probability, 4)
-                            e2["context"] = {
-                                "probability": context_probability,
-                                "top_segment": ctx_result.top_segment,
-                                "top_kind": ctx_result.top_kind,
-                                "n_segments": ctx_result.n_segments
-                            }
-                        except Exception:
-                            # Context guard score failed; skip it but don't block the scan
-                            pass
+                    # Engine 2 context signal (WARN only); an error here fails closed like any detector error
+                    ctx = getattr(self.detector, "context_signal", None)
+                    if ctx is not None:
+                        c = ctx.score(text)
+                        context_probability = round(c.probability, 4)
+                        e2["context"] = {"probability": context_probability, "top_kind": c.top_kind,
+                                         "n_segments": c.n_segments, "model_id": ctx.model_id,
+                                         "top_segment": c.top_segment[:300]}
                 except Exception as e:  # fail closed
                     det_err = f"{type(e).__name__}: {e}"
         if det_err:
