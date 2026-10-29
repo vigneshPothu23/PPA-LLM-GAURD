@@ -5,7 +5,7 @@
   "status": "experimental",
   "limitations": "Not validated for production. Frozen dev ROC-AUC 0.823 but frozen test ROC-AUC 0.396 (below chance): task-irrelevant instructions hidden in e-mails, tables and code (BIPIA) are not separated from clean documents, and harmless prompts with trigger words (NotInject) are flagged 54-60% of the time at the WARN threshold. English only per the provider. The metrics above are for the whole-document detector at the earlier thresholds (WARN 0.01); the final configuration's holdout results are reported in docs/v5/FINAL_EVALUATION.md.",
   "thresholds": {
-    "warn": 0.999,
+    "warn": 0.99,
     "block": 0.99,
     "context_warn": 0.95,
     "source": "pre-registered final configuration (design D) selected by nested grouped 5-fold CV on the development pool only (2,325 rows); not validated - see docs/v5/evidence/final/PREREGISTRATION_FINAL.md"
@@ -13,7 +13,8 @@
   "threshold_notes": [
     "BLOCK precision 0.98 not reached on dev and even 0.99 exceeds the BLOCK FPR budget 0.01 (FPR there 0.039); BLOCK set to 0.99: precision 0.8021978021978022, recall 0.35960591133004927",
     "WARN recall 0.95 not reachable within FPR 0.1; WARN set to 0.01 (recall 0.4975369458128079, FPR 0.075)",
-    "Final build: WARN if whole-document P > 0.999 OR context-guard P > 0.95 (joint grid, max recall at pooled FPR <= 10% on dev); BLOCK if whole-document P > 0.99 (BLOCK precision target 0.98 not met on dev: precision 0.84, FPR 0.054). Source: docs/v5/evidence/final/final_thresholds.json"
+    "Final build: WARN if whole-document P > 0.999 OR context-guard P > 0.95 (joint grid, max recall at pooled FPR <= 10% on dev); BLOCK if whole-document P > 0.99 (BLOCK precision target 0.98 not met on dev: precision 0.84, FPR 0.054). Source: docs/v5/evidence/final/final_thresholds.json",
+    "Implementation note: the pre-registered whole-document WARN threshold 0.999 lies above BLOCK 0.99, so its WARN band is empty (any P > 0.999 already BLOCKs). The policy requires WARN <= BLOCK, so WARN is stored as 0.99; with strict '>' comparisons this gives identical decisions for every input."
   ],
   "metrics": {
     "dev": {

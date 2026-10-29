@@ -121,3 +121,13 @@ def test_profiles_pass_the_model_card_context_threshold():
     app = dict(P.defaults("general"), profile="general")
     cfg = P.to_config(app, {"warn": 0.99, "block": 0.99, "context_warn": 0.9, "source": "t"})
     assert cfg.context_warn_threshold == 0.9
+
+
+def test_shipped_model_card_thresholds_build_a_valid_policy():
+    """Regression: the shipped evaluation.json must yield a PolicyConfig (WARN <= BLOCK) for every profile."""
+    import json
+    from pathlib import Path
+    ev = json.loads((Path(__file__).resolve().parents[2] / "artifacts/engine2/protectai-v2/evaluation.json").read_text())
+    for name in P.PROFILES:
+        cfg = P.to_config(dict(P.defaults(name), profile=name), ev["thresholds"])
+        assert cfg.warn_threshold <= cfg.block_threshold and cfg.context_warn_threshold == ev["thresholds"]["context_warn"]
