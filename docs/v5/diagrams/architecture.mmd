@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph Callers
+    U["Console user<br/>(OIDC or demo persona)"]
+    K["Python app<br/>PPAGuardClient + API key"]
+  end
+  U --> A
+  K --> A
+  A["1-3 Identity, role,<br/>org + app scope,<br/>rate limit"] --> V["4 Input validation"]
+  V --> E2
+  subgraph E2["Engine 2 - threat analysis (ONNX, CPU)"]
+    D["Whole-document detector<br/>ProtectAI DeBERTa-v3 v2<br/>512-token windows -> P(injection)"]
+    C["Context signal<br/>segments -> 7 lexical cues +<br/>detector per segment +<br/>MiniLM-L6 off-topic -> LR<br/>P = max over segments"]
+  end
+  V --> F["Engine 1 forgery scan<br/>(signal)"]
+  D -->|"P > 0.99 -> BLOCK"| P
+  C -->|"P > 0.95 -> WARN only"| P
+  F -->|"strong -> WARN/BLOCK (profile)"| P
+  P{"Policy<br/>most severe wins<br/>any error -> BLOCK"}
+  P -->|ALLOW| E1["Engine 1 assembly<br/>fresh random boundary<br/>per request"]
+  P -->|WARN| R["Held for Security Analyst<br/>(single-use release,<br/>full re-check)"]
+  P -->|BLOCK| B["Blocked<br/>nothing forwarded"]
+  E1 --> DB
+  R --> DB
+  B --> DB
+  DB[("Scan record + hash-chained audit<br/>(SHA-256 of input, never raw text)")] --> OUT["Result to caller<br/>protected prompt only if ALLOW"]
+  OUT -.->|"caller's own LLM<br/>(PPA Guard calls none)"| L["Downstream LLM<br/>(not part of PPA Guard)"]
+  classDef warn fill:#fff4d6,stroke:#b7791f
+  classDef block fill:#fde2e1,stroke:#c53030
+  classDef ok fill:#ddf5ee,stroke:#1f8a70
+  class R warn
+  class B block
+  class E1 ok

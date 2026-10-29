@@ -18,8 +18,22 @@ streamlit run streamlit_app.py
 - Engine 2 defaults to `protectai/deberta-v3-base-prompt-injection-v2` at a pinned revision. The first start downloads
   about 740 MB from Hugging Face (free, no account). It is labelled **EXPERIMENTAL** because it is not validated on our
   frozen test set; see `docs/v5/EVALUATION.md`.
+- Engine 2's **context signal** (hidden instructions inside documents) also downloads
+  `sentence-transformers/all-MiniLM-L6-v2` (ONNX export, pinned revision `1110a243`, about 90 MB, Apache-2.0) into
+  `%USERPROFILE%\.cache\ppaguard\minilm` and checks its SHA-256 hashes. If it cannot be loaded, Engine 2 is reported
+  as not loaded and every scan is BLOCKED (fail closed). `$env:PPAGUARD_CONTEXT = "off"` runs the whole-document
+  detector alone; the console then shows "context signal: off".
 - To use our trained alternatives instead (no download), run `$env:PPAGUARD_MODEL = "roberta-6l-experimental"` or
   `"scratch-baseline"` before `streamlit run`.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `PPAGUARD_DEMO_MODE` | unset | `1` = demo personas, separate demo database (not authentication) |
+| `PPAGUARD_MODEL` / `PPAGUARD_MODEL_DIR` | `protectai` | Engine 2 detector (see `engine2/registry.py`) |
+| `PPAGUARD_CONTEXT` | `on` | `off` disables the context signal (explicit, shown in the console) |
+| `PPAGUARD_CACHE` | `~/.cache/ppaguard` | where the models are stored |
+| `PPAGUARD_THREADS` | `2` | ONNX Runtime threads |
+| `PPAGUARD_DATABASE_URL` | local SQLite | PostgreSQL URL for production |
 
 ## 2. Run the tests
 
@@ -27,7 +41,11 @@ streamlit run streamlit_app.py
 pip install -r requirements-dev.txt
 python -m pytest tests\v5 -q                    # v5 application tests
 python -m pytest -q                             # everything, including the preserved v4/legacy suites
+$env:PPAGUARD_REAL_MODEL_TESTS = "1"
+python -m pytest tests\v5\test_v5_regression_real.py -q   # whole security suite through the real models (slow)
 ```
+
+Reproduce the evaluation (baseline vs final, same harness): see `docs/v5/FINAL_EVALUATION.md` §9.
 
 `tests\v5\test_v5_training.py` is skipped unless the training extras are installed (step 3).
 
@@ -124,6 +142,7 @@ git push
   may change. Apps sleep after 12 hours without traffic, and the local filesystem is not durable.
 - **Neon Free:** 1 GB storage per project, 100 CU-hours per project per month, scales to zero after 5 minutes idle.
 - **Google / Microsoft sign-in:** free.
-- **Engine 2 default model:** a free 740 MB download from Hugging Face on first start, with no API cost. In the build
+- **Engine 2 default model:** a free 740 MB download from Hugging Face on first start (plus about 90 MB for the
+  MiniLM context model), with no API cost. In the build
   sandbox the whole app peaked at **1,355 MB RSS** during the browser walkthrough with this model, below the 2.7 GB cap.
   It used about 300 ms of CPU per text on 2 cores.
