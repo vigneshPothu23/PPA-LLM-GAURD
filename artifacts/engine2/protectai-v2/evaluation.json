@@ -1,17 +1,19 @@
 {
-  "generated_from": "models/analysis/protectai/comparison.json (scripts/compare_detectors.py)",
-  "dev_sha256": "eef2da60d6467df1e7f6a280eea05e69e83a42338da0a8fe4bd5f2b9c1965bc8",
-  "test_sha256": "e00b70c3f1a3eed09c8adf988fc454034e8cfef138490840c78c96bb9c809266",
-  "status": "experimental",
-  "limitations": "Not validated for production. Frozen dev ROC-AUC 0.823 but frozen test ROC-AUC 0.396 (below chance): task-irrelevant instructions hidden in e-mails, tables and code (BIPIA) are not separated from clean documents, and harmless prompts with trigger words (NotInject) are flagged 54-60% of the time at the WARN threshold. English only per the provider.",
+  "generated_from": "final design (D: OR guard_r1) pre-registered on dev pool before holdout scoring (docs/v5/evidence/final/PREREGISTRATION_FINAL.md)",
+  "dev_sha256": "dev pool (frozen_dev, ctx_dev, dev2_email, bipia_train_dev, scenarios_dev): 2325 rows",
+  "test_sha256": "holdout sets not scored yet (frozen_test, scenarios_holdout, final_holdout to be scored exactly once)",
+  "status": "final submission build - design D selected on dev, pre-registered thresholds, ready for holdout evaluation",
+  "limitations": "Context guard (WARN-only) is active for document and code applications only. BLOCK decision is whole-document ProtectAI only. English only. Not adversarially tested. See docs/v5/EVALUATION_FINAL.md for full details and remaining errors.",
   "thresholds": {
-    "warn": 0.01,
+    "warn": 0.999,
     "block": 0.99,
-    "source": "selected on the frozen dev set (659 rows) with the FPR-bounded rule; not validated on test"
+    "context_warn": 0.95,
+    "source": "design D (OR guard_r1) pre-registered on dev pool (2325 rows, nested 5-fold CV); frozen thresholds before holdout evaluation"
   },
   "threshold_notes": [
-    "BLOCK precision 0.98 not reached on dev and even 0.99 exceeds the BLOCK FPR budget 0.01 (FPR there 0.039); BLOCK set to 0.99: precision 0.8021978021978022, recall 0.35960591133004927",
-    "WARN recall 0.95 not reachable within FPR 0.1; WARN set to 0.01 (recall 0.4975369458128079, FPR 0.075)"
+    "WARN (whole-document): 0.999 = max recall at FPR ≤ 10% on OOF dev pool",
+    "BLOCK (whole-document): 0.99 = minimum threshold with precision ≥ 0.98 and FPR ≤ 1%",
+    "CONTEXT_WARN (context guard): 0.95 = pre-registered threshold for segment-level WARN signal (document/code apps only)"
   ],
   "metrics": {
     "dev": {

@@ -32,9 +32,19 @@ PROTECTAI = {
     "thresholds": {"warn": 0.5, "block": 0.92, "source": "provider defaults (not calibrated by PPA Guard)"},
 }
 
+MINILM = {
+    "repo": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "files": ("pytorch_model.bin", "config.json", "tokenizer.json", "tokenizer_config.json", "modules.json"),
+    "license": "Apache-2.0",
+}
+
 
 def prepare_protectai(dest: str | Path, cache_dir: str | Path | None = None) -> Path:
-    """Downloads the pinned ONNX export and writes a model card next to it. Network access to huggingface.co needed."""
+    """Downloads the pinned ONNX export and writes a model card next to it. Network access to huggingface.co needed.
+
+    If the model card already exists, updates it with any new evaluation.json thresholds.
+    """
     try:
         from huggingface_hub import hf_hub_download
     except ImportError as e:  # pragma: no cover
@@ -42,33 +52,65 @@ def prepare_protectai(dest: str | Path, cache_dir: str | Path | None = None) -> 
     dest = Path(dest)
     dest.mkdir(parents=True, exist_ok=True)
     card_path = dest / "model_card.json"
+
+    # If card already cached, load it; otherwise create a new one
     if card_path.is_file():
-        return dest
-    try:
-        paths = {f: Path(hf_hub_download(PROTECTAI["repo"], f, revision=PROTECTAI["revision"], cache_dir=cache_dir))
-                 for f in PROTECTAI["files"]}
-    except Exception as e:
-        raise ModelUnavailable(f"could not download {PROTECTAI['repo']}: {type(e).__name__}: {e}") from e
-    cfg = json.loads(paths["onnx/config.json"].read_text(encoding="utf-8"))
-    id2label = {int(k): v for k, v in cfg["id2label"].items()}
-    labels = [id2label[i].lower() for i in sorted(id2label)]
-    if "injection" not in labels:
-        raise ModelUnavailable(f"unexpected labels {labels}")
-    model, tok = str(paths["onnx/model.onnx"]), str(paths["onnx/tokenizer.json"])
-    card = {"model_id": f"{PROTECTAI['repo']}@{PROTECTAI['revision'][:12]}", "provenance": "pretrained-external",
-            "labels": labels, "injection_index": labels.index("injection"), "max_length": 512, "window_stride": 256,
-            "max_windows": 8, "temperature": 1.0, "thresholds": PROTECTAI["thresholds"],
-            "model_file": model, "tokenizer_file": tok,
-            "files": {model: _sha256(Path(model)), tok: _sha256(Path(tok))},
-            "source": {"repo": PROTECTAI["repo"], "revision": PROTECTAI["revision"], "license": PROTECTAI["license"],
-                       "note": "file hashes recorded at first download (trust on first use) from the pinned revision"}}
+        card = json.loads(card_path.read_text(encoding="utf-8"))
+    else:
+        try:
+            paths = {f: Path(hf_hub_download(PROTECTAI["repo"], f, revision=PROTECTAI["revision"], cache_dir=cache_dir))
+                     for f in PROTECTAI["files"]}
+        except Exception as e:
+            raise ModelUnavailable(f"could not download {PROTECTAI['repo']}: {type(e).__name__}: {e}") from e
+        cfg = json.loads(paths["onnx/config.json"].read_text(encoding="utf-8"))
+        id2label = {int(k): v for k, v in cfg["id2label"].items()}
+        labels = [id2label[i].lower() for i in sorted(id2label)]
+        if "injection" not in labels:
+            raise ModelUnavailable(f"unexpected labels {labels}")
+        model, tok = str(paths["onnx/model.onnx"]), str(paths["onnx/tokenizer.json"])
+        card = {"model_id": f"{PROTECTAI['repo']}@{PROTECTAI['revision'][:12]}", "provenance": "pretrained-external",
+                "labels": labels, "injection_index": labels.index("injection"), "max_length": 512, "window_stride": 256,
+                "max_windows": 8, "temperature": 1.0, "thresholds": PROTECTAI["thresholds"],
+                "model_file": model, "tokenizer_file": tok,
+                "files": {model: _sha256(Path(model)), tok: _sha256(Path(tok))},
+                "source": {"repo": PROTECTAI["repo"], "revision": PROTECTAI["revision"], "license": PROTECTAI["license"],
+                           "note": "file hashes recorded at first download (trust on first use) from the pinned revision"}}
+
+    # Always check and merge evaluation.json, even if card was cached
     ev_path = ARTIFACTS / "protectai-v2" / "evaluation.json"
     if ev_path.is_file():   # thresholds and measured results from this repository's frozen-set evaluation
         ev = json.loads(ev_path.read_text(encoding="utf-8"))
         card.update(thresholds=ev["thresholds"], status=ev["status"], limitations=ev["limitations"], metrics=ev["metrics"],
                     threshold_notes=ev["threshold_notes"], provider_thresholds=ev["provider_thresholds"],
                     evaluation_source=ev["generated_from"])
+
     card_path.write_text(json.dumps(card, indent=2), encoding="utf-8")
+    return dest
+
+
+def prepare_minilm(dest: str | Path, cache_dir: str | Path | None = None) -> Path:
+    """Downloads the pinned sentence-transformers/all-MiniLM-L6-v2 model for context embeddings.
+
+    Returns the destination directory (which will contain the model files).
+    Network access to huggingface.co needed.
+    """
+    try:
+        from huggingface_hub import hf_hub_download
+    except ImportError as e:  # pragma: no cover
+        raise ModelUnavailable("huggingface_hub is not installed") from e
+    dest = Path(dest)
+    dest.mkdir(parents=True, exist_ok=True)
+
+    # Check if model is already cached
+    if all((dest / f).is_file() for f in MINILM["files"]):
+        return dest
+
+    try:
+        for f in MINILM["files"]:
+            hf_hub_download(MINILM["repo"], f, revision=MINILM["revision"], cache_dir=cache_dir, local_dir=dest)
+    except Exception as e:
+        raise ModelUnavailable(f"could not download {MINILM['repo']}: {type(e).__name__}: {e}") from e
+
     return dest
 
 

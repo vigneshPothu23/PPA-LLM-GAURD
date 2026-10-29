@@ -38,6 +38,7 @@ class PolicyConfig:
     partial_analysis_action: Decision = Decision.WARN
     warn_handling: str = "hold"                 # hold | allow_with_flag
     thresholds_source: str = "model card"
+    context_warn_threshold: float = 0.95        # Context guard WARN-only threshold (for document/code apps)
 
     def __post_init__(self):
         if not 0.0 < self.warn_threshold <= self.block_threshold < 1.0:
@@ -49,6 +50,8 @@ class PolicyConfig:
         for a in (self.forgery_action, self.hidden_chars_action, self.partial_analysis_action):
             if a not in (Decision.WARN, Decision.BLOCK):
                 raise ValueError("rule actions must be WARN or BLOCK")
+        if not 0.0 < self.context_warn_threshold < 1.0:
+            raise ValueError("context_warn_threshold must satisfy 0 < threshold < 1")
 
 
 @dataclass(frozen=True)
@@ -103,7 +106,7 @@ def validate_input(text, cfg: PolicyConfig) -> str | None:
 
 
 def evaluate(text, cfg: PolicyConfig, *, probability: float | None, detector_error: str | None,
-             partial: bool = False, forgery: list[ForgeryFinding] | tuple = ()) -> PolicyResult:
+             partial: bool = False, forgery: list[ForgeryFinding] | tuple = (), context_probability: float | None = None) -> PolicyResult:
     reasons: list[Reason] = []
     notes: list[str] = []
     bad = validate_input(text, cfg)
@@ -119,6 +122,11 @@ def evaluate(text, cfg: PolicyConfig, *, probability: float | None, detector_err
             else Decision.ALLOW
         reasons.append(Reason("engine2", band, f"P(injection) = {probability:.3f}; WARN if > {cfg.warn_threshold:.2f}, "
                                                 f"BLOCK if > {cfg.block_threshold:.2f} ({cfg.thresholds_source})"))
+    # Context guard: WARN-only signal for document/code app instructions hidden inside benign text
+    if context_probability is not None and context_probability > cfg.context_warn_threshold and not bad:
+        reasons.append(Reason("engine2-context", Decision.WARN,
+                              f"Context: P(injection in segment) = {context_probability:.3f} > {cfg.context_warn_threshold:.2f}"))
+
     if isinstance(text, str) and not bad:
         hc = hidden_characters(text)
         if hc:

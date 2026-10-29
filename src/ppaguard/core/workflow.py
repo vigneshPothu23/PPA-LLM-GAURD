@@ -117,6 +117,7 @@ class SecurityWorkflow:
 
         # 3-4 input validation, Engine 2
         e2, det_err = None, None
+        context_probability = None
         if validate_input(text, cfg) is None:
             if self.detector is None:
                 det_err = self.detector_error
@@ -127,6 +128,21 @@ class SecurityWorkflow:
                           "model_id": d.model_id, "provenance": d.provenance, "n_tokens": d.n_tokens, "windows": d.windows,
                           "partial": d.partial, "latency_ms": round(d.latency_ms, 1),
                           "evidence": [list(x) for x in d.evidence]}
+
+                    # Context guard: score if available (WARN-only signal)
+                    if self.detector.context_signal is not None and is_text:
+                        try:
+                            ctx_result = self.detector.context_signal.score(text)
+                            context_probability = round(ctx_result.probability, 4)
+                            e2["context"] = {
+                                "probability": context_probability,
+                                "top_segment": ctx_result.top_segment,
+                                "top_kind": ctx_result.top_kind,
+                                "n_segments": ctx_result.n_segments
+                            }
+                        except Exception:
+                            # Context guard score failed; skip it but don't block the scan
+                            pass
                 except Exception as e:  # fail closed
                     det_err = f"{type(e).__name__}: {e}"
         if det_err:
@@ -135,7 +151,8 @@ class SecurityWorkflow:
         # 5-6 Engine 1 forgery signal, policy
         forgery = find_forgery(text) if is_text else []
         pr = evaluate(text, cfg, probability=e2.get("probability") if e2 and not det_err else None,
-                      detector_error=det_err, partial=bool(e2 and e2.get("partial")), forgery=forgery)
+                      detector_error=det_err, partial=bool(e2 and e2.get("partial")), forgery=forgery,
+                      context_probability=context_probability)
         reasons, notes = [str(r) for r in pr.reasons], list(pr.notes)
         decision, forward = pr.decision, pr.forward
         policy_info = {"decision": pr.decision.name, "detector_band": pr.band.name if pr.band is not None else None,

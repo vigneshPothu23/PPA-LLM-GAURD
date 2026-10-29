@@ -154,6 +154,7 @@ class Detector:
         self.pad_id = pad if pad is not None else 0
         self.vocab_size = self.tok.get_vocab_size()
         self.model_id = self.card.model_id
+        self.context_signal = None  # Will be set by load_detector if available
 
     # ------------------------------------------------------------------ core
     def _windows(self, text: str) -> tuple[list[list[int]], int, bool]:

@@ -198,8 +198,9 @@ def test_protectai_preparation_writes_an_honest_card(tmp_path, monkeypatch):
     assert {c[2] for c in calls} == {registry.PROTECTAI["revision"]}                     # pinned revision only
     assert card["provenance"] == "pretrained-external" and card["labels"] == ["safe", "injection"]
     assert card["injection_index"] == 1
-    assert card["status"] == "experimental" and "not validated" in card["thresholds"]["source"]      # from evaluation.json
-    assert card["metrics"]["test"]["roc_auc"] < 0.5 and "Not validated for production" in card["limitations"]
+    assert card["status"] == "final submission build - design D selected on dev, pre-registered thresholds, ready for holdout evaluation"  # from evaluation.json
+    assert "pre-registered" in card["thresholds"]["source"]      # design D pre-registered thresholds
+    assert card["thresholds"]["context_warn"] == 0.95  # context guard threshold
     assert Detector(d).detect("hello").model_id.startswith("protectai/")
 
 

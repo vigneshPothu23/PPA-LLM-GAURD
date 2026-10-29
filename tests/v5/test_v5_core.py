@@ -36,6 +36,7 @@ class FakeDetector:
 
     def __init__(self, fail=False):
         self.fail, self.calls = fail, 0
+        self.context_signal = None  # No context guard in tests
 
     def detect(self, text, explain=False):
         self.calls += 1

@@ -81,15 +81,16 @@ def validate(profile: str, values: dict) -> dict:
 
 
 def to_config(app: dict, recommended: dict) -> PolicyConfig:
-    """`recommended` = the active model card's thresholds {"warn", "block", "source"}."""
+    """`recommended` = the active model card's thresholds {"warn", "block", "context_warn", "source"}."""
     if app.get("warn_threshold") is not None:
         w, b, src = app["warn_threshold"], app["block_threshold"], "application override - not validated"
     else:
         w, b, src = recommended["warn"], recommended["block"], f"model card: {recommended.get('source', 'recommended')}"
+    ctx_warn = recommended.get("context_warn", 0.95)  # default fallback
     return PolicyConfig(warn_threshold=w, block_threshold=b, max_chars=app["max_chars"],
                         forgery_action=Decision[app["forgery_action"]], hidden_chars_action=Decision[app["hidden_chars_action"]],
                         partial_analysis_action=Decision[app["partial_analysis_action"]], warn_handling=app["warn_handling"],
-                        thresholds_source=src)
+                        thresholds_source=src, context_warn_threshold=ctx_warn)
 
 
 def snapshot(app: dict, cfg: PolicyConfig) -> str:
